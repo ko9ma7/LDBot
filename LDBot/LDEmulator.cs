@@ -22,18 +22,7 @@ namespace LDBot
         private readonly string _scriptFolder;
         private string _deviceID;
 
-        public string DeviceID
-        {
-            get { return _deviceID; }
-            set { _deviceID = value; }
-        }
-
-
         #region Constructor
-        public string ScriptFolder
-        {
-            get { return _scriptFolder; }
-        }
 
         public LDEmulator() { }
 
@@ -56,6 +45,15 @@ namespace LDBot
         #endregion
 
         #region Get_Set
+        public string ScriptFolder
+        {
+            get { return _scriptFolder; }
+        }
+        public string DeviceID
+        {
+            get { return _deviceID; }
+            set { _deviceID = value; }
+        }
         public int VboxPID
         {
             get { return _vBoxPID; }
@@ -163,6 +161,8 @@ namespace LDBot
             stringBuilder.AppendLine("using System.Drawing.Imaging;");
             stringBuilder.AppendLine("using System.Threading;");
             stringBuilder.AppendLine("using System.Threading.Tasks;");
+            stringBuilder.AppendLine("using System.IO;");
+            stringBuilder.AppendLine("using System.Text;");
             stringBuilder.AppendLine("using KAutoHelper;");
             stringBuilder.AppendLine("namespace LDBot {");
             stringBuilder.AppendLine("class AutoScriptExternalClass:BotAction {");

@@ -404,5 +404,38 @@ namespace LDBot
                 }
             }
         }
+
+        private void installAPKSelectedsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (Prompt prompt = new Prompt("Select APK file to install", "Install APK"))
+            {
+                if (prompt.Result.Length > 0)
+                {
+                    if (list_Emulator.SelectedItems.Count > 0)
+                    {
+                        foreach (object selectedLD in list_Emulator.SelectedItems)
+                        {
+                            LDEmulator ld = ((ListViewItem)selectedLD).Tag as LDEmulator;
+                            LDManager.installAPK(ld.Index, prompt.Result);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void installAPKToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (Prompt prompt = new Prompt("Select APK file to install", "Install APK","Drag and drop APK here to install"))
+            {
+                if (prompt.Result.Length > 0)
+                {
+                    if (list_Emulator.SelectedItems.Count > 0)
+                    {
+                        LDEmulator ld = list_Emulator.SelectedItems[0].Tag as LDEmulator;
+                        LDManager.installAPK(ld.Index, prompt.Result);
+                    }
+                }
+            }
+        }
     }
 }

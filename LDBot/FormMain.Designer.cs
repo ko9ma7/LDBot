@@ -60,6 +60,8 @@ namespace LDBot
             this.quitAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadScriptSelectedsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startScriptSelectedsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopScriptSelectedsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.installAPKSelectedsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rebootToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +71,12 @@ namespace LDBot
             this.loadScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stopScriptSelectedsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.installAPKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -99,9 +106,12 @@ namespace LDBot
             this.runSelectedToolStripMenuItem,
             this.createNewToolStripMenuItem,
             this.quitAllToolStripMenuItem,
+            this.toolStripSeparator4,
             this.loadScriptSelectedsToolStripMenuItem,
             this.startScriptSelectedsToolStripMenuItem,
-            this.stopScriptSelectedsToolStripMenuItem});
+            this.stopScriptSelectedsToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.installAPKSelectedsToolStripMenuItem});
             this.menu_LDEmulator.Name = "menu_LDEmulator";
             this.menu_LDEmulator.Size = new System.Drawing.Size(154, 25);
             this.menu_LDEmulator.Text = "LD Player Manager";
@@ -256,6 +266,7 @@ namespace LDBot
             // 
             // btn_SaveGeneralConfig
             // 
+            this.btn_SaveGeneralConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_SaveGeneralConfig.BackColor = System.Drawing.Color.LimeGreen;
             this.btn_SaveGeneralConfig.Location = new System.Drawing.Point(331, 124);
             this.btn_SaveGeneralConfig.Name = "btn_SaveGeneralConfig";
@@ -336,20 +347,24 @@ namespace LDBot
             this.runToolStripMenuItem,
             this.rebootToolStripMenuItem1,
             this.closeToolStripMenuItem1,
+            this.toolStripSeparator1,
             this.cloneToolStripMenuItem1,
             this.changeInfoToolStripMenuItem1,
             this.deleteToolStripMenuItem1,
+            this.toolStripSeparator2,
             this.loadScriptToolStripMenuItem,
             this.startScriptToolStripMenuItem,
-            this.stopScriptToolStripMenuItem});
+            this.stopScriptToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.installAPKToolStripMenuItem});
             this.listLDContextMenuStrip1.Name = "listLDContextMenuStrip1";
-            this.listLDContextMenuStrip1.Size = new System.Drawing.Size(140, 202);
+            this.listLDContextMenuStrip1.Size = new System.Drawing.Size(140, 242);
             // 
             // runSelectedToolStripMenuItem
             // 
             this.runSelectedToolStripMenuItem.Image = global::LDBot.Properties.Resources.power_on__1_;
             this.runSelectedToolStripMenuItem.Name = "runSelectedToolStripMenuItem";
-            this.runSelectedToolStripMenuItem.Size = new System.Drawing.Size(237, 26);
+            this.runSelectedToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
             this.runSelectedToolStripMenuItem.Text = "Run Selected(s)";
             this.runSelectedToolStripMenuItem.Click += new System.EventHandler(this.runSelectedToolStripMenuItem_Click);
             // 
@@ -357,7 +372,7 @@ namespace LDBot
             // 
             this.createNewToolStripMenuItem.Image = global::LDBot.Properties.Resources.page;
             this.createNewToolStripMenuItem.Name = "createNewToolStripMenuItem";
-            this.createNewToolStripMenuItem.Size = new System.Drawing.Size(237, 26);
+            this.createNewToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
             this.createNewToolStripMenuItem.Text = "Create new";
             this.createNewToolStripMenuItem.Click += new System.EventHandler(this.createNewToolStripMenuItem_Click);
             // 
@@ -365,7 +380,7 @@ namespace LDBot
             // 
             this.quitAllToolStripMenuItem.Image = global::LDBot.Properties.Resources.power_on;
             this.quitAllToolStripMenuItem.Name = "quitAllToolStripMenuItem";
-            this.quitAllToolStripMenuItem.Size = new System.Drawing.Size(237, 26);
+            this.quitAllToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
             this.quitAllToolStripMenuItem.Text = "Close All";
             this.quitAllToolStripMenuItem.Click += new System.EventHandler(this.quitAllToolStripMenuItem_Click);
             // 
@@ -373,17 +388,33 @@ namespace LDBot
             // 
             this.loadScriptSelectedsToolStripMenuItem.Image = global::LDBot.Properties.Resources.import;
             this.loadScriptSelectedsToolStripMenuItem.Name = "loadScriptSelectedsToolStripMenuItem";
-            this.loadScriptSelectedsToolStripMenuItem.Size = new System.Drawing.Size(237, 26);
-            this.loadScriptSelectedsToolStripMenuItem.Text = "Load Script Selected(s)";
+            this.loadScriptSelectedsToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
+            this.loadScriptSelectedsToolStripMenuItem.Text = "Load Script";
             this.loadScriptSelectedsToolStripMenuItem.Click += new System.EventHandler(this.loadScriptSelectedsToolStripMenuItem_Click);
             // 
             // startScriptSelectedsToolStripMenuItem
             // 
             this.startScriptSelectedsToolStripMenuItem.Image = global::LDBot.Properties.Resources.tick_mark;
             this.startScriptSelectedsToolStripMenuItem.Name = "startScriptSelectedsToolStripMenuItem";
-            this.startScriptSelectedsToolStripMenuItem.Size = new System.Drawing.Size(237, 26);
-            this.startScriptSelectedsToolStripMenuItem.Text = "Start Script Selected(s)";
+            this.startScriptSelectedsToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
+            this.startScriptSelectedsToolStripMenuItem.Text = "Start Script";
             this.startScriptSelectedsToolStripMenuItem.Click += new System.EventHandler(this.startScriptSelectedsToolStripMenuItem_Click);
+            // 
+            // stopScriptSelectedsToolStripMenuItem
+            // 
+            this.stopScriptSelectedsToolStripMenuItem.Image = global::LDBot.Properties.Resources.stop;
+            this.stopScriptSelectedsToolStripMenuItem.Name = "stopScriptSelectedsToolStripMenuItem";
+            this.stopScriptSelectedsToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
+            this.stopScriptSelectedsToolStripMenuItem.Text = "Stop Script";
+            this.stopScriptSelectedsToolStripMenuItem.Click += new System.EventHandler(this.stopScriptSelectedsToolStripMenuItem_Click);
+            // 
+            // installAPKSelectedsToolStripMenuItem
+            // 
+            this.installAPKSelectedsToolStripMenuItem.Image = global::LDBot.Properties.Resources.icons8_apk_16;
+            this.installAPKSelectedsToolStripMenuItem.Name = "installAPKSelectedsToolStripMenuItem";
+            this.installAPKSelectedsToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
+            this.installAPKSelectedsToolStripMenuItem.Text = "Install APK";
+            this.installAPKSelectedsToolStripMenuItem.Click += new System.EventHandler(this.installAPKSelectedsToolStripMenuItem_Click);
             // 
             // runToolStripMenuItem
             // 
@@ -406,7 +437,7 @@ namespace LDBot
             this.closeToolStripMenuItem1.Image = global::LDBot.Properties.Resources.power_on;
             this.closeToolStripMenuItem1.Name = "closeToolStripMenuItem1";
             this.closeToolStripMenuItem1.Size = new System.Drawing.Size(139, 22);
-            this.closeToolStripMenuItem1.Text = "Close";
+            this.closeToolStripMenuItem1.Text = "Shutdown";
             this.closeToolStripMenuItem1.Click += new System.EventHandler(this.closeToolStripMenuItem1_Click);
             // 
             // cloneToolStripMenuItem1
@@ -457,13 +488,38 @@ namespace LDBot
             this.stopScriptToolStripMenuItem.Text = "Stop Script";
             this.stopScriptToolStripMenuItem.Click += new System.EventHandler(this.stopScriptToolStripMenuItem_Click);
             // 
-            // stopScriptSelectedsToolStripMenuItem
+            // installAPKToolStripMenuItem
             // 
-            this.stopScriptSelectedsToolStripMenuItem.Image = global::LDBot.Properties.Resources.stop;
-            this.stopScriptSelectedsToolStripMenuItem.Name = "stopScriptSelectedsToolStripMenuItem";
-            this.stopScriptSelectedsToolStripMenuItem.Size = new System.Drawing.Size(237, 26);
-            this.stopScriptSelectedsToolStripMenuItem.Text = "Stop Script Selected(s)";
-            this.stopScriptSelectedsToolStripMenuItem.Click += new System.EventHandler(this.stopScriptSelectedsToolStripMenuItem_Click);
+            this.installAPKToolStripMenuItem.Image = global::LDBot.Properties.Resources.icons8_apk_16;
+            this.installAPKToolStripMenuItem.Name = "installAPKToolStripMenuItem";
+            this.installAPKToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.installAPKToolStripMenuItem.Text = "Install APK";
+            this.installAPKToolStripMenuItem.Click += new System.EventHandler(this.installAPKToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(136, 6);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(136, 6);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(136, 6);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(184, 6);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(184, 6);
             // 
             // FormMain
             // 
@@ -536,6 +592,13 @@ namespace LDBot
         private System.Windows.Forms.ToolStripMenuItem startScriptSelectedsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopScriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopScriptSelectedsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem installAPKSelectedsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem installAPKToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 

@@ -117,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ldplayer220-220.ico" />
+    <None Include="Resources\icons8-apk-16.png" />
     <None Include="Resources\stop.png" />
     <None Include="Resources\import1.png" />
     <None Include="Resources\tick-mark.png" />

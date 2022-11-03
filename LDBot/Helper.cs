@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
@@ -140,12 +141,12 @@ namespace LDBot
         private Form prompt { get; set; }
         public string Result { get; }
 
-        public Prompt(string text, string caption)
+        public Prompt(string text, string caption, string hint = "")
         {
-            Result = ShowDialog(text, caption);
+            Result = ShowDialog(text, caption, hint);
         }
         //use a using statement
-        private string ShowDialog(string text, string caption)
+        private string ShowDialog(string text, string caption, string hint)
         {
             prompt = new Form()
             {
@@ -157,9 +158,21 @@ namespace LDBot
                 TopMost = true
             };
             Label textLabel = new Label() { Left = 10, Top = 10, Text = text, Dock = DockStyle.Top, TextAlign = ContentAlignment.MiddleCenter };
-            TextBox textBox = new TextBox() { Left = 10, Top = 30, Width = 265 };
+            TextBox textBox = new TextBox() { Left = 10, Top = 30, Width = 265, AllowDrop = true, Text = hint };
             Button confirmation = new Button() { Text = "Ok", Left = 180, Width = 100, Top = 70, DialogResult = DialogResult.OK };
             confirmation.Click += (sender, e) => { prompt.Close(); };
+            textBox.DragOver += (sender, e) =>
+            {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                    e.Effect = DragDropEffects.Link;
+                else
+                    e.Effect = DragDropEffects.None;
+            };
+            textBox.DragDrop += (sender, e) =>
+            {
+                string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
+                textBox.Text = files.First();
+            };
             prompt.Controls.Add(textBox);
             prompt.Controls.Add(confirmation);
             prompt.Controls.Add(textLabel);

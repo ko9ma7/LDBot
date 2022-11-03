@@ -11,7 +11,7 @@ _ld: {
 	pID: int,
 	VboxPID: int
 	botAction: BotAction,
-	_scriptFolder: string | readonly
+	ScriptFolder: string,
 	DeviceID: string
 }
 

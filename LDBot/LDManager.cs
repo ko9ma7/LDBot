@@ -17,7 +17,7 @@ namespace LDBot
 		public static List<LDEmulator> listEmulator = new List<LDEmulator>();
 
 		private static void getLDInfo(LDEmulator ld)
-        {
+		{
 			bool isStarted = false;
 			int elapsedTime = 0;
 			while (!isStarted)
@@ -50,12 +50,12 @@ namespace LDBot
 					bool isADBConnected = false;
 					int connectCount = 0;
 					while (!isADBConnected)
-                    {
-						Helper.raiseOnUpdateLDStatus(ld.Index,string.Format("ADB Connecting...{0}",connectCount));
+					{
+						Helper.raiseOnUpdateLDStatus(ld.Index, string.Format("ADB Connecting...{0}", connectCount));
 						List<string> adbDevices = new List<string>(Helper.runCMD(adb, "devices").Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries));
 						string adbDeviceInfo = adbDevices.FirstOrDefault(str => str.Contains((ld.Index * 2 + 5554).ToString()) || str.Contains((ld.Index * 2 + 5555).ToString()));
-						if(adbDeviceInfo != null)
-                        {
+						if (adbDeviceInfo != null)
+						{
 
 							adbDeviceInfo = adbDeviceInfo.Replace("device", "").Trim();
 							Helper.raiseOnUpdateLDStatus(ld.Index, "Connecting to " + adbDeviceInfo);
@@ -66,7 +66,7 @@ namespace LDBot
 							isADBConnected = true;
 						}
 						else
-                        {
+						{
 							connectCount++;
 							if (connectCount > 30)
 							{
@@ -172,23 +172,23 @@ namespace LDBot
 		}
 
 		public static void removeLD(int index)
-        {
+		{
 			try
-            {
+			{
 				LDManager.executeLdConsole(string.Format("remove --index {0}", index));
 				LDManager.listEmulator.RemoveAt(LDManager.listEmulator.FindIndex((LDEmulator l) => l.Index == index));
 				Helper.raiseOnUpdateMainStatus("Player deleted successful");
 			}
-			catch(Exception e)
-            {
+			catch (Exception e)
+			{
 				Helper.raiseOnErrorMessage(e);
 			}
-        }
+		}
 
 		public static void runLD(LDEmulator ld)
-        {
+		{
 			try
-            {
+			{
 				Thread thread = new Thread((ThreadStart)delegate
 				{
 					Helper.raiseOnUpdateLDStatus(ld.Index, "Starting...");
@@ -200,16 +200,16 @@ namespace LDBot
 				thread.Name = "LD" + ld.Index.ToString();
 				thread.Start();
 			}
-			catch(Exception e)
-            {
+			catch (Exception e)
+			{
 				Helper.raiseOnErrorMessage(e);
-			}			
-        }
+			}
+		}
 
 		public static void restartLD(LDEmulator ld)
-        {
+		{
 			try
-            {
+			{
 				Thread thread = new Thread((ThreadStart)delegate
 				{
 					Helper.raiseOnUpdateLDStatus(ld.Index, "Rebooting...");
@@ -230,16 +230,16 @@ namespace LDBot
 		}
 
 		public static void quitLD(int index)
-        {
+		{
 			LDManager.executeLdConsole("quit --index " + index);
 			Helper.raiseOnUpdateLDStatus(index, "Stop");
-        }
+		}
 
 		public static void quitAll()
-        {
+		{
 			LDManager.executeLdConsole("quitall");
-			foreach(LDEmulator ld  in listEmulator)
-            {
+			foreach (LDEmulator ld in listEmulator)
+			{
 				Helper.raiseOnUpdateLDStatus(ld.Index, "Stop");
 				ld.isRunning = false;
 				ld.TopHandle = new IntPtr(0);
@@ -250,15 +250,15 @@ namespace LDBot
 		}
 
 		public static void loadScript(LDEmulator ld)
-        {
-			if(ld != null)
-            {
+		{
+			if (ld != null)
+			{
 				ld.GenerateCode();
-            }				
-        }
+			}
+		}
 
 		public static void startScript(LDEmulator ld)
-        {
+		{
 			try
 			{
 				if (ld != null)
@@ -266,11 +266,11 @@ namespace LDBot
 					ld.botAction.Start();
 				}
 			}
-			catch(Exception e)
-            {
+			catch (Exception e)
+			{
 
 				Helper.raiseOnUpdateLDStatus(ld.Index, "Err: " + e.Message);
-            }			
+			}
 		}
 
 		public static void stopScript(LDEmulator ld)
@@ -288,6 +288,20 @@ namespace LDBot
 				Helper.raiseOnUpdateLDStatus(ld.Index, "Err: " + e.Message);
 			}
 		}
+
+		public static void installAPK(int index, string apkPath)
+		{
+			try
+			{
+				executeLdConsole("installapp --index " + index + " --filename " + apkPath);
+				Helper.raiseOnUpdateLDStatus(index, "Install APK successful");
+			}
+			catch(Exception e)
+            {
+				Helper.raiseOnErrorMessage(e);
+            }
+		}
+		
 
 		public static void executeLdConsole(string cmd)
 		{
