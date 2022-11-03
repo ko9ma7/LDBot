@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Text;
@@ -10,6 +11,7 @@ namespace LDBot
     {
         public static event dlgUpdateMainStatus onUpdateMainStatus;
         public static event dlgErrorMessage onErrorMessage;
+        public static event dlgUpdateLDStatus onUpdateLDStatus;
         public static void AddOrUpdateAppSettings(string key, string value)
         {
             try
@@ -94,6 +96,42 @@ namespace LDBot
                 return;
             else
                 onErrorMessage(err);
+        }
+
+        public static void raiseOnUpdateLDStatus(int ldIndex, string stt)
+        {
+            if (onUpdateLDStatus == null)
+                return;
+            else
+                onUpdateLDStatus(ldIndex, stt);
+        }
+
+        public static string runCMD(string fileName, string arg)
+        {
+            try
+            {
+                Process process = new Process();
+                process.StartInfo = new ProcessStartInfo
+                {
+                    FileName = fileName,
+                    Arguments = arg,
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true
+                };
+                process.Start();
+                process.WaitForExit(5000);
+                string result = process.StandardOutput.ReadToEnd();
+                process.Close();
+                return result.Trim();
+            }
+            catch(Exception e)
+            {
+                raiseOnErrorMessage(e);
+                return "";
+            }
         }
     }
 
