@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 namespace LDBot
 {
+
     public class BotAction
     {
         protected LDEmulator _ld;
