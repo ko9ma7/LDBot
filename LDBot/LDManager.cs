@@ -302,7 +302,6 @@ namespace LDBot
             }
 		}
 		
-
 		public static void executeLdConsole(string cmd)
 		{
 			try
@@ -323,5 +322,6 @@ namespace LDBot
 				Helper.raiseOnErrorMessage(e);
 			}			
 		}
+		
 	}
 }

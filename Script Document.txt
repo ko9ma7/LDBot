@@ -27,6 +27,9 @@ _ld: {
 	void setStatus(string stt) //Cập nhật trạng thái vào list view
 	bool findImage(string imgPath, [double similarPercent = 0.9, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0]) //Tìm kiếm hình ảnh
 	bool findAndClick(string imgPath, [double similarPercent = 0.9, int xPlus = 0, int yPlus = 0, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0]) //Tìm kiếm và click theo hình ảnh.
+	List<string> getInstalledPackages() //lấy danh sách app được cài đặt dưới dạng package name. Mỗi Package Name có dạng: com.cyanogenmod.filemanager
+	void runApp(string packageName) //run app theo package name
+	void killApp(string packageName) //kill app theo package name
 /*
 * Các hàm trong ADBHelper
 */

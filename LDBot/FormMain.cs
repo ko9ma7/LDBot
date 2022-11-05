@@ -21,6 +21,7 @@ namespace LDBot
             Helper.onUpdateMainStatus += ((stt) => updateStatus(stt));
             Helper.onErrorMessage += ((err) => showError(err));
             Helper.onUpdateLDStatus += ((ldIndex, stt) => updateLDStatus(ldIndex, stt));
+            Helper.onWriteLog += ((log) => writeLog(log));
         }
 
         private void loadConfig()
@@ -69,6 +70,19 @@ namespace LDBot
                 {
                     listViewItemArray[0].SubItems[2].Text = status;
                 }    
+            }    
+        }
+
+        private void writeLog(string log)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => writeLog(log)));
+            }
+            else
+            {
+                rtb_log.AppendText(string.Format("{0}{1}", log.Trim(), Environment.NewLine));
+                rtb_log.ScrollToCaret();
             }    
         }
 

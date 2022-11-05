@@ -13,6 +13,7 @@ namespace LDBot
         public static event dlgUpdateMainStatus onUpdateMainStatus;
         public static event dlgErrorMessage onErrorMessage;
         public static event dlgUpdateLDStatus onUpdateLDStatus;
+        public static event dlgWriteLog onWriteLog;
         public static void AddOrUpdateAppSettings(string key, string value)
         {
             try
@@ -105,6 +106,14 @@ namespace LDBot
                 return;
             else
                 onUpdateLDStatus(ldIndex, stt);
+        }
+
+        public static void raiseOnWriteLog(string log)
+        {
+            if (onWriteLog == null)
+                return;
+            else
+                onWriteLog(log);
         }
 
         public static string runCMD(string fileName, string arg)
