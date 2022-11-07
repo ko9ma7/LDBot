@@ -16,6 +16,8 @@ namespace LDBot
         private IntPtr _topHandle;
         private IntPtr _bindHandle;
         private bool _isRunning;
+        private bool _isUseProxy;
+        private string _proxy;
         private int _pID;
         private int _vBoxPID;
         public BotAction botAction;
@@ -37,6 +39,8 @@ namespace LDBot
             this._vBoxPID = vBoxPID;
             this.botAction = new BotAction(this);
             this._scriptFolder = ConfigurationManager.AppSettings["LDPath"] + "\\Scripts\\" + this._name;
+            this._isUseProxy = false;
+            this._proxy = "";
             if (!Directory.Exists(this._scriptFolder))
             {
                 Directory.CreateDirectory(this._scriptFolder);
@@ -45,6 +49,17 @@ namespace LDBot
         #endregion
 
         #region Get_Set
+        public string Proxy
+        {
+            get { return _proxy; }
+            set { _proxy = value; }
+        }
+        public bool isUseProxy
+        {
+            get { return _isUseProxy; }
+            set { _isUseProxy = value; }
+
+        }
         public string ScriptFolder
         {
             get { return _scriptFolder; }
@@ -151,6 +166,8 @@ namespace LDBot
             options.ReferencedAssemblies.Add("Emgu.CV.World.dll");
             options.ReferencedAssemblies.Add("ZedGraph.dll");
             options.ReferencedAssemblies.Add("KAutoHelper.dll");
+            options.ReferencedAssemblies.Add("xNet.dll");
+            options.ReferencedAssemblies.Add("Newtonsoft.Json.dll");
             options.ReferencedAssemblies.Add("LDBot.exe");
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("using System;");
@@ -163,7 +180,9 @@ namespace LDBot
             stringBuilder.AppendLine("using System.Threading.Tasks;");
             stringBuilder.AppendLine("using System.IO;");
             stringBuilder.AppendLine("using System.Text;");
+            stringBuilder.AppendLine("using Newtonsoft.Json;");
             stringBuilder.AppendLine("using KAutoHelper;");
+            stringBuilder.AppendLine("using xNet;");
             stringBuilder.AppendLine("namespace LDBot {");
             stringBuilder.AppendLine("class AutoScriptExternalClass:BotAction {");
             stringBuilder.AppendLine("public AutoScriptExternalClass(LDEmulator _ld) : base(_ld) { }");

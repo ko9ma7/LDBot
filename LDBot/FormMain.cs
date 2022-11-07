@@ -451,5 +451,32 @@ namespace LDBot
                 }
             }
         }
+
+        private void changeProxyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (Prompt prompt = new Prompt("Input HTTP proxy info. Ex: proxy:port", "Change Proxy"))
+            {
+                if (list_Emulator.SelectedItems.Count > 0)
+                {
+                    LDEmulator ld = list_Emulator.SelectedItems[0].Tag as LDEmulator;
+                    LDManager.changeProxy(ld, prompt.Result);
+                }
+            }
+        }
+
+        private void changeProxyToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (Prompt prompt = new Prompt("Input HTTP proxy info. Ex: proxy:port", "Change Proxy"))
+            {
+                if (list_Emulator.SelectedItems.Count > 0)
+                {     
+                    foreach (object selectedLD in list_Emulator.SelectedItems)
+                    {
+                        LDEmulator ld = ((ListViewItem)selectedLD).Tag as LDEmulator;
+                        LDManager.changeProxy(ld, prompt.Result);
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using KAutoHelper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using xNet;
+
 namespace LDBot
 {
 
@@ -18,6 +21,7 @@ namespace LDBot
             isRunning = false;
         }
 
+        #region Virtual Function
         public virtual void Init()
         {
         }
@@ -28,7 +32,9 @@ namespace LDBot
         {
             isRunning = false;
         }
+        #endregion
 
+        #region Bot Function
         protected void setStatus(string stt)
         {
             if (stt.Length > 0)
@@ -187,5 +193,41 @@ namespace LDBot
             setStatus("Kill " + packageName);
             LDManager.executeLdConsole(string.Format("killapp --index {0} --packagename {1}", _ld.Index, packageName));
         }
+
+        protected void changeProxy(string proxyConfig = "")
+        {
+            if (proxyConfig.Length > 0)
+            {
+                _ld.isUseProxy = true;
+            }
+            else
+            {
+                _ld.isUseProxy = false;
+            }
+            _ld.Proxy = proxyConfig;
+            LDManager.changeProxy(_ld, proxyConfig);
+        }
+
+        protected string getCurrentIP()
+        {
+            using (var request = new HttpRequest())
+            {
+                request.UserAgent = Http.ChromeUserAgent();
+                if (_ld.isUseProxy)
+                    request.Proxy = HttpProxyClient.Parse(_ld.Proxy);
+                string content = request.Get("http://ip-api.com/json").ToString();
+                var jsonStruct = new
+                {
+                    status = "",
+                    country = "",
+                    query = ""
+                };
+                var data = JsonConvert.DeserializeAnonymousType(content, jsonStruct);
+                if (data.status == "success")
+                    return data.query;
+                return "";
+            }
+        }
+        #endregion
     }
 }

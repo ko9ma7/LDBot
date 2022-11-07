@@ -21,3 +21,5 @@ D:\Projects\LDBot\LDBot\bin\Debug\ZedGraph.xml
 D:\Projects\LDBot\LDBot\obj\Debug\LDBot.csproj.CopyComplete
 D:\Projects\LDBot\LDBot\obj\Debug\LDBot.csproj.AssemblyReference.cache
 D:\Projects\LDBot\LDBot\obj\Debug\LDBot.FormError.resources
+D:\Projects\LDBot\LDBot\bin\Debug\xNet.dll
+D:\Projects\LDBot\LDBot\bin\Debug\xNet.xml

@@ -60,6 +60,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="xNet">
+      <HintPath>..\..\..\Downloads\xNet.dll</HintPath>
+    </Reference>
     <Reference Include="ZedGraph">
       <HintPath>..\..\..\Code Tham Khao\Update KautoHelper\ZedGraph.dll</HintPath>
     </Reference>
@@ -117,6 +120,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ldplayer220-220.ico" />
+    <None Include="Resources\world.png" />
+    <None Include="Resources\vpn.png" />
     <None Include="Resources\icons8-apk-16.png" />
     <None Include="Resources\stop.png" />
     <None Include="Resources\import1.png" />

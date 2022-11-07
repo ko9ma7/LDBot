@@ -301,6 +301,27 @@ namespace LDBot
 				Helper.raiseOnErrorMessage(e);
             }
 		}
+
+		public static void changeProxy(LDEmulator ld, string proxyConfig = "")
+        {
+			try
+			{
+				if (proxyConfig.Length > 0)
+				{
+					Helper.runCMD(adb, string.Format("-s {0} shell settings put global http_proxy {1}", ld.DeviceID, proxyConfig));
+					Helper.raiseOnUpdateLDStatus(ld.Index, "Use HTTP proxy " + proxyConfig);
+				}
+				else
+				{
+					Helper.runCMD(adb, string.Format("-s {0} shell settings put global http_proxy :0", ld.DeviceID));
+					Helper.raiseOnUpdateLDStatus(ld.Index, "Remove HTTP proxy");
+				}
+			}
+			catch(Exception e)
+            {
+				Helper.raiseOnErrorMessage(e);
+            }			
+        }
 		
 		public static void executeLdConsole(string cmd)
 		{
