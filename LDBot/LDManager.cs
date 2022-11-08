@@ -147,9 +147,9 @@ namespace LDBot
 				string simserial = "898600" + Helper.CreateRandomNumber(14, random);
 				string androidid = Helper.Md5Encode(Helper.CreateRandomStringNumber(32, random), "x2").Substring(random.Next(0, 16), 16);
 
-				LDManager.executeLdConsole(string.Concat(new object[]
+				string command = string.Concat(new string[]
 				{
-					"modify --index ", index,
+					"modify --index ", index.ToString(),
 					" --imei ", imei,
 					" --model \"", model.ToString(),
 					"\" --manufacturer ", manufacturer.ToString(),
@@ -160,9 +160,10 @@ namespace LDBot
 					" --resolution 320,480,120",
 					" --cpu 1 --memory 1024",
 					" --mac auto"
-				}));
+				});
+				LDManager.executeLdConsole(command);
 
-				Helper.raiseOnUpdateMainStatus(string.Format("New info: {0}, {1}, IMEI: {2}, Phone: {3}", manufacturer, model, imei, pNumber));
+				Helper.raiseOnWriteLog(command);
 				Helper.raiseOnUpdateLDStatus(index, "Change LD info OK");
 			}
 			catch (Exception e)

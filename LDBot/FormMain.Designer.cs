@@ -69,6 +69,7 @@ namespace LDBot
             this.startScriptSelectedsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopScriptSelectedsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.installAPKSelectedsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeProxyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rebootToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,7 +81,7 @@ namespace LDBot
             this.stopScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.installAPKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeProxyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.changeProxyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -394,9 +395,10 @@ namespace LDBot
             this.stopScriptToolStripMenuItem,
             this.toolStripSeparator3,
             this.installAPKToolStripMenuItem,
-            this.changeProxyToolStripMenuItem});
+            this.changeProxyToolStripMenuItem,
+            this.openFolderToolStripMenuItem});
             this.listLDContextMenuStrip1.Name = "listLDContextMenuStrip1";
-            this.listLDContextMenuStrip1.Size = new System.Drawing.Size(149, 264);
+            this.listLDContextMenuStrip1.Size = new System.Drawing.Size(149, 286);
             // 
             // toolStripSeparator1
             // 
@@ -469,12 +471,20 @@ namespace LDBot
             this.installAPKSelectedsToolStripMenuItem.Text = "Install APK";
             this.installAPKSelectedsToolStripMenuItem.Click += new System.EventHandler(this.installAPKSelectedsToolStripMenuItem_Click);
             // 
+            // changeProxyToolStripMenuItem1
+            // 
+            this.changeProxyToolStripMenuItem1.Image = global::LDBot.Properties.Resources.world;
+            this.changeProxyToolStripMenuItem1.Name = "changeProxyToolStripMenuItem1";
+            this.changeProxyToolStripMenuItem1.Size = new System.Drawing.Size(187, 26);
+            this.changeProxyToolStripMenuItem1.Text = "Change Proxy";
+            this.changeProxyToolStripMenuItem1.Click += new System.EventHandler(this.changeProxyToolStripMenuItem1_Click);
+            // 
             // runToolStripMenuItem
             // 
             this.runToolStripMenuItem.Image = global::LDBot.Properties.Resources.power_on__1_;
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
             this.runToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.runToolStripMenuItem.Text = "Run";
+            this.runToolStripMenuItem.Text = "Run LD";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
             // 
             // rebootToolStripMenuItem1
@@ -557,13 +567,13 @@ namespace LDBot
             this.changeProxyToolStripMenuItem.Text = "Change Proxy";
             this.changeProxyToolStripMenuItem.Click += new System.EventHandler(this.changeProxyToolStripMenuItem_Click);
             // 
-            // changeProxyToolStripMenuItem1
+            // openFolderToolStripMenuItem
             // 
-            this.changeProxyToolStripMenuItem1.Image = global::LDBot.Properties.Resources.world;
-            this.changeProxyToolStripMenuItem1.Name = "changeProxyToolStripMenuItem1";
-            this.changeProxyToolStripMenuItem1.Size = new System.Drawing.Size(187, 26);
-            this.changeProxyToolStripMenuItem1.Text = "Change Proxy";
-            this.changeProxyToolStripMenuItem1.Click += new System.EventHandler(this.changeProxyToolStripMenuItem1_Click);
+            this.openFolderToolStripMenuItem.Image = global::LDBot.Properties.Resources.folder;
+            this.openFolderToolStripMenuItem.Name = "openFolderToolStripMenuItem";
+            this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.openFolderToolStripMenuItem.Text = "Open Folder";
+            this.openFolderToolStripMenuItem.Click += new System.EventHandler(this.openFolderToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -648,6 +658,7 @@ namespace LDBot
         private System.Windows.Forms.RichTextBox rtb_log;
         private System.Windows.Forms.ToolStripMenuItem changeProxyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeProxyToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem openFolderToolStripMenuItem;
     }
 }
 

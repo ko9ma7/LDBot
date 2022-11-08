@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ldplayer220-220.ico" />
+    <None Include="Resources\folder.png" />
     <None Include="Resources\world.png" />
     <None Include="Resources\vpn.png" />
     <None Include="Resources\icons8-apk-16.png" />
