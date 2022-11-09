@@ -3,15 +3,15 @@
   <summary>Mục Lục</summary>
   <ul>
     <li><a href="#variables">Variables</a></li>
-    <li><a href="#virtualfunc">Virtual Functions</a></li>
-    <li><a href="#scriptfunc">Script Functions</a></li>
-    <li><a href="#adbhelper">ADBHelper Functions</a></li>
-    <li><a href="#usedlibrary">Used Libraries</a></li>
+    <li><a href="#virtual-functions">Virtual Functions</a></li>
+    <li><a href="#script-functions">Script Functions</a></li>
+    <li><a href="#adbhelper-functions">ADBHelper Functions</a></li>
+    <li><a href="#used-libraries">Used Libraries</a></li>
   </ul>
 </details>
 
 <!-- Variables -->
-## variables
+## Variables
 ```cs
 bool isRunning //kiểm tra trạng thái script đang chạy hay dừng, dùng để ngắt script | khởi tạo false
 _ld: {
@@ -28,14 +28,14 @@ _ld: {
 }
 ```
 <!-- Virtual Functions -->
-## virtualfunc
+## Virtual Functions
 ```cs
 void Init() //Chạy ngay khi chọn Load Script
 void Start() //Chạy khi chọn Start Script
 void Stop() // set isRunning = false
 ```
 <!-- Script Functions -->
-## scriptfunc
+## Script Functions
 ```cs
 	void setStatus(string stt) //Cập nhật trạng thái vào list view
 	bool findImage(string imgPath, [double similarPercent = 0.9, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0]) //Tìm kiếm hình ảnh
@@ -49,7 +49,7 @@ void Stop() // set isRunning = false
 	List<MimeMessage> getAllMails(string mailServer, int port, string mail, string password) //Đọc email IMAP
 ```
 <!-- ADBHelper Functions -->
-## adbhelper
+## ADBHelper Functions
 ```cs
 void Delay(double delayTime);
 string ExecuteCMD(string cmdCommand);
@@ -73,7 +73,7 @@ void TapByPercent(string deviceID, double x, double y, int count = 1);
 void SetTextFromClipboard(string deviceID, string text);
 ```
 <!-- Used Libraries -->
-## usedlibrary
+## Used Libraries
 HTTP Request
 [xNet 3.3.3](https://teamcodedao.com/forum/index.php?/topic/3-huong-dan-co-ban-ve-thu-vien-xnet-trong-csharp/)
 [Newtonsoft.Json 13.0.0.0] (https://www.newtonsoft.com/json)
