@@ -13,7 +13,7 @@
 <!-- Variables -->
 ## Variables
 ```cs
-bool isRunning //kiểm tra trạng thái script đang chạy hay dừng, dùng để ngắt script | khởi tạo false
+bool isRunning; //kiểm tra trạng thái script đang chạy hay dừng, dùng để ngắt script | khởi tạo false
 _ld: {
 	Index: int,
 	Name: string,
@@ -25,28 +25,28 @@ _ld: {
 	botAction: BotAction,
 	ScriptFolder: string,
 	DeviceID: string
-}
+};
 ```
 <!-- Virtual Functions -->
 ## Virtual Functions
 ```cs
-void Init() //Chạy ngay khi chọn Load Script
-void Start() //Chạy khi chọn Start Script
-void Stop() // set isRunning = false
+void Init(); //Chạy ngay khi chọn Load Script
+void Start(); //Chạy khi chọn Start Script
+void Stop(); // set isRunning = false
 ```
 <!-- Script Functions -->
 ## Script Functions
 ```cs
-	void setStatus(string stt) //Cập nhật trạng thái vào list view
-	bool findImage(string imgPath, [double similarPercent = 0.9, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0]) //Tìm kiếm hình ảnh
-	bool findAndClick(string imgPath, [double similarPercent = 0.9, int xPlus = 0, int yPlus = 0, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0]) //Tìm kiếm và click theo hình ảnh.
-	List<string> getInstalledPackages() //lấy danh sách app được cài đặt dưới dạng package name. Mỗi Package Name có dạng: com.cyanogenmod.filemanager
-	void runApp(string packageName) //run app theo package name
-	void killApp(string packageName) //kill app theo package name
-	void writeLog(string log) // Dùng để hiển thị thông tin debug
-	void changeProxy(string proxyConfig) //Change proxy, truyền vào chuỗi rỗng "" để remove proxy
-	string getCurrentIP() //Hiển thị địa chỉ IP hiện tại
-	List<MimeMessage> getAllMails(string mailServer, int port, string mail, string password) //Đọc email IMAP
+	void setStatus(string stt); //Cập nhật trạng thái vào list view
+	bool findImage(string imgPath, [double similarPercent = 0.9, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0]); //Tìm kiếm hình ảnh
+	bool findAndClick(string imgPath, [double similarPercent = 0.9, int xPlus = 0, int yPlus = 0, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0]); //Tìm kiếm và click theo hình ảnh.
+	List<string> getInstalledPackages(); //lấy danh sách app được cài đặt dưới dạng package name. Mỗi Package Name có dạng: com.cyanogenmod.filemanager
+	void runApp(string packageName); //run app theo package name
+	void killApp(string packageName); //kill app theo package name
+	void writeLog(string log); // Dùng để hiển thị thông tin debug
+	void changeProxy(string proxyConfig); //Change proxy, truyền vào chuỗi rỗng "" để remove proxy
+	string getCurrentIP(); //Hiển thị địa chỉ IP hiện tại
+	List<MimeMessage> getAllMails(string mailServer, int port, string mail, string password); //Đọc email IMAP
 ```
 <!-- ADBHelper Functions -->
 ## ADBHelper Functions
