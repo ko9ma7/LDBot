@@ -4,7 +4,7 @@
   <ul>
     <li><a href="#variables">Variables</a></li>
     <li><a href="#virtualfunc">Virtual Functions</a></li>
-    <li><a href="#botfunc">Script Functions</a></li>
+    <li><a href="#scriptfunc">Script Functions</a></li>
     <li><a href="#adbhelper">ADBHelper Functions</a></li>
     <li><a href="#usedlibrary">Used Libraries</a></li>
   </ul>
@@ -27,12 +27,16 @@ _ld: {
 	DeviceID: string
 }
 ```
-#region Hàm virtual
-	void Init() //Chạy ngay khi chọn Load Script
-	void Start() //Chạy khi chọn Start Script
-	void Stop() // set isRunning = false
-#endregion
-#region Hàm tiện ích
+<!-- Virtual Functions -->
+## virtualfunc
+```cs
+void Init() //Chạy ngay khi chọn Load Script
+void Start() //Chạy khi chọn Start Script
+void Stop() // set isRunning = false
+```
+<!-- Script Functions -->
+## scriptfunc
+```cs
 	void setStatus(string stt) //Cập nhật trạng thái vào list view
 	bool findImage(string imgPath, [double similarPercent = 0.9, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0]) //Tìm kiếm hình ảnh
 	bool findAndClick(string imgPath, [double similarPercent = 0.9, int xPlus = 0, int yPlus = 0, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0]) //Tìm kiếm và click theo hình ảnh.
@@ -43,9 +47,10 @@ _ld: {
 	void changeProxy(string proxyConfig) //Change proxy, truyền vào chuỗi rỗng "" để remove proxy
 	string getCurrentIP() //Hiển thị địa chỉ IP hiện tại
 	List<MimeMessage> getAllMails(string mailServer, int port, string mail, string password) //Đọc email IMAP
-#endregion
-#region Các hàm trong ADBHelper
-
+```
+<!-- ADBHelper Functions -->
+## adbhelper
+```cs
 void Delay(double delayTime);
 string ExecuteCMD(string cmdCommand);
 string ExecuteCMDBat(string deviceID, string cmdCommand);
@@ -66,11 +71,9 @@ void SwipeByPercent(string deviceID, double x1, double y1, double x2, double y2,
 void Tap(string deviceID, int x, int y, int count = 1);
 void TapByPercent(string deviceID, double x, double y, int count = 1);
 void SetTextFromClipboard(string deviceID, string text);
-#endregion
-#region HTTP Request
-// Hỗ trợ HTTP request bằng thư viện xNet 3.3.3
-// https://teamcodedao.com/forum/index.php?/topic/3-huong-dan-co-ban-ve-thu-vien-xnet-trong-csharp/
-#endregion
-#region Xử lý JSON data
-// Hỗ trợ xử lý JSON data bằng thư viện Newtonsoft.Json;
-#endregion
+```
+<!-- Used Libraries -->
+## usedlibrary
+HTTP Request
+[xNet 3.3.3](https://teamcodedao.com/forum/index.php?/topic/3-huong-dan-co-ban-ve-thu-vien-xnet-trong-csharp/)
+[Newtonsoft.Json 13.0.0.0] (https://www.newtonsoft.com/json)
