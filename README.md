@@ -8,6 +8,7 @@
     <li><a href="#script-functions">Script Functions</a></li>
     <li><a href="#adbhelper-functions">ADBHelper Functions</a></li>
     <li><a href="#used-libraries">Used Libraries</a></li>
+	<li><a href="#library-documents">Library Documents</a></li>
   </ul>
   
 </details>
@@ -103,5 +104,26 @@ public override void Start()
 ```
 <!-- Used Libraries -->
 ## Used Libraries
+```cs
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Threading;
+using System.Threading.Tasks;
+using System.IO;
+using Newtonsoft.Json;
+using KAutoHelper;
+using xNet;
+using MimeKit;
+```
+
+<!-- Library Documents -->
+## Library Documents
 * [HTTP Request - xNet 3.3.3](https://teamcodedao.com/forum/index.php?/topic/3-huong-dan-co-ban-ve-thu-vien-xnet-trong-csharp/)
 * [JSON - Newtonsoft.Json 13.0.0.0](https://www.newtonsoft.com/json)
+* [Email - MailKit 3.4.0.0](https://github.com/jstedfast/MailKit)
