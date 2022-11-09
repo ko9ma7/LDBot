@@ -85,4 +85,4 @@ void SetTextFromClipboard(string deviceID, string text);
 <!-- Used Libraries -->
 ## Used Libraries
 * [HTTP Request - xNet 3.3.3](https://teamcodedao.com/forum/index.php?/topic/3-huong-dan-co-ban-ve-thu-vien-xnet-trong-csharp/)
-* [JSON - Newtonsoft.Json 13.0.0.0] (https://www.newtonsoft.com/json)
+* [JSON - Newtonsoft.Json 13.0.0.0](https://www.newtonsoft.com/json)
