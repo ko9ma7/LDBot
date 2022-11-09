@@ -5,9 +5,9 @@ using System.Linq;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
-using System.Threading;
 using System.Runtime.InteropServices;
 using KAutoHelper;
+using System.Drawing;
 
 namespace LDBot
 {
@@ -18,6 +18,7 @@ namespace LDBot
         public FormMain()
         {
             InitializeComponent();
+            this.Location = new Point(Screen.GetBounds(this).Right - this.Width, 0);
             Helper.onUpdateMainStatus += ((stt) => updateStatus(stt));
             Helper.onErrorMessage += ((err) => showError(err));
             Helper.onUpdateLDStatus += ((ldIndex, stt) => updateLDStatus(ldIndex, stt));
@@ -81,7 +82,7 @@ namespace LDBot
             }
             else
             {
-                rtb_log.AppendText(string.Format("{0}{1}", log.Trim(), Environment.NewLine));
+                rtb_log.AppendText(string.Format("[{0}]{1}{2}", DateTime.Now.ToString("HH:mm:ss"), log.Trim(), Environment.NewLine));
                 rtb_log.ScrollToCaret();
             }    
         }
