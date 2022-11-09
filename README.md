@@ -37,16 +37,26 @@ void Stop(); // set isRunning = false
 <!-- Script Functions -->
 ## Script Functions
 ```cs
-	void setStatus(string stt); //Cập nhật trạng thái vào list view
-	bool findImage(string imgPath, [double similarPercent = 0.9, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0]); //Tìm kiếm hình ảnh
-	bool findAndClick(string imgPath, [double similarPercent = 0.9, int xPlus = 0, int yPlus = 0, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0]); //Tìm kiếm và click theo hình ảnh.
-	List<string> getInstalledPackages(); //lấy danh sách app được cài đặt dưới dạng package name. Mỗi Package Name có dạng: com.cyanogenmod.filemanager
-	void runApp(string packageName); //run app theo package name
-	void killApp(string packageName); //kill app theo package name
-	void writeLog(string log); // Dùng để hiển thị thông tin debug
-	void changeProxy(string proxyConfig); //Change proxy, truyền vào chuỗi rỗng "" để remove proxy
-	string getCurrentIP(); //Hiển thị địa chỉ IP hiện tại
-	List<MimeMessage> getAllMails(string mailServer, int port, string mail, string password); //Đọc email IMAP
+//Cập nhật trạng thái vào list view
+void setStatus(string stt); 
+//Tìm kiếm hình ảnh
+bool findImage(string imgPath, [double similarPercent = 0.9, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0]);
+//Tìm kiếm và click theo hình ảnh.
+bool findAndClick(string imgPath, [double similarPercent = 0.9, int xPlus = 0, int yPlus = 0, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0]);
+//lấy danh sách app được cài đặt dưới dạng package name. Package Name có dạng: com.cyanogenmod.filemanager
+List<string> getInstalledPackages();
+//run app theo package name
+void runApp(string packageName);
+//kill app theo package name
+void killApp(string packageName);
+// Hiển thị thông tin vào debug log
+void writeLog(string log); 
+//Change proxy, truyền vào chuỗi rỗng "" để remove proxy
+void changeProxy(string proxyConfig); 
+//Hiển thị địa chỉ IP hiện tại
+string getCurrentIP(); 
+//Đọc email IMAP
+List<MimeMessage> getAllMails(string mailServer, int port, string mail, string password);
 ```
 <!-- ADBHelper Functions -->
 ## ADBHelper Functions
@@ -75,5 +85,5 @@ void SetTextFromClipboard(string deviceID, string text);
 <!-- Used Libraries -->
 ## Used Libraries
 HTTP Request
-[xNet 3.3.3](https://teamcodedao.com/forum/index.php?/topic/3-huong-dan-co-ban-ve-thu-vien-xnet-trong-csharp/)
-[Newtonsoft.Json 13.0.0.0] (https://www.newtonsoft.com/json)
+* [xNet 3.3.3](https://teamcodedao.com/forum/index.php?/topic/3-huong-dan-co-ban-ve-thu-vien-xnet-trong-csharp/)
+* [Newtonsoft.Json 13.0.0.0] (https://www.newtonsoft.com/json)
