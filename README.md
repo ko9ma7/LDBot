@@ -1,4 +1,18 @@
-#region Biến
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Mục Lục</summary>
+  <ul>
+    <li><a href="#variables">Variables</a></li>
+    <li><a href="#virtualfunc">Virtual Functions</a></li>
+    <li><a href="#botfunc">Script Functions</a></li>
+    <li><a href="#adbhelper">ADBHelper Functions</a></li>
+    <li><a href="#usedlibrary">Used Libraries</a></li>
+  </ul>
+</details>
+
+<!-- Variables -->
+## variables
+```cs
 bool isRunning //kiểm tra trạng thái script đang chạy hay dừng, dùng để ngắt script | khởi tạo false
 _ld: {
 	Index: int,
@@ -12,7 +26,7 @@ _ld: {
 	ScriptFolder: string,
 	DeviceID: string
 }
-#endregion
+```
 #region Hàm virtual
 	void Init() //Chạy ngay khi chọn Load Script
 	void Start() //Chạy khi chọn Start Script
