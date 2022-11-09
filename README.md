@@ -1,14 +1,15 @@
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Mục Lục</summary>
+  <summary>TABLE OF CONTENTS</summary>
   <ul>
+	<li><a href="#script-example">Script Example</a></li>
     <li><a href="#variables">Variables</a></li>
     <li><a href="#virtual-functions">Virtual Functions</a></li>
     <li><a href="#script-functions">Script Functions</a></li>
     <li><a href="#adbhelper-functions">ADBHelper Functions</a></li>
     <li><a href="#used-libraries">Used Libraries</a></li>
   </ul>
-  <a href="#script-example">Script Example</a>
+  
 </details>
 
 <!-- Variables -->
