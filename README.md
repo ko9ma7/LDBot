@@ -8,6 +8,7 @@
     <li><a href="#adbhelper-functions">ADBHelper Functions</a></li>
     <li><a href="#used-libraries">Used Libraries</a></li>
   </ul>
+  <a href="#script-example">Script Example</a>
 </details>
 
 <!-- Variables -->
@@ -81,6 +82,23 @@ void SwipeByPercent(string deviceID, double x1, double y1, double x2, double y2,
 void Tap(string deviceID, int x, int y, int count = 1);
 void TapByPercent(string deviceID, double x, double y, int count = 1);
 void SetTextFromClipboard(string deviceID, string text);
+```
+<!-- Script Example -->
+## Script Example
+```cs
+public override void Init()
+{
+	setStatus("Script initialized");
+}
+
+public override void Start()
+{
+	new Task(delegate
+	{
+		isRunning = true;
+		// Your code here
+	}).Start();
+}
 ```
 <!-- Used Libraries -->
 ## Used Libraries
