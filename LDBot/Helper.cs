@@ -6,6 +6,15 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+
+using MimeKit;
+using MailKit;
+using MailKit.Search;
+using MailKit.Net.Imap;
+using System.Collections.Generic;
+using System.Web;
+using System.IO;
+
 namespace LDBot
 {
     public class Helper
@@ -84,6 +93,11 @@ namespace LDBot
             return stringBuilder.ToString();
         }
 
+        public static string URLDecode(string url)
+        {
+            return HttpUtility.UrlDecode(url);
+        }
+
         public static void raiseOnUpdateMainStatus(string stt)
         {
             if (onUpdateMainStatus == null)
@@ -143,6 +157,29 @@ namespace LDBot
                 return "";
             }
         }
+
+        public static List<MimeMessage> readMailIMAP(string mailServer, int port, string email, string password)
+        {
+            using (var client = new ImapClient())
+            {
+                List<MimeMessage> listMail = new List<MimeMessage>();
+                client.Connect(mailServer, port, true);
+
+                client.Authenticate(email, password);
+
+                // The Inbox folder is always available on all IMAP servers...
+                var inbox = client.Inbox;
+                inbox.Open(FolderAccess.ReadOnly);
+
+                for (int i = 0; i < inbox.Count; i++)
+                {
+                    listMail.Add(inbox.GetMessage(i));
+                }
+
+                client.Disconnect(true);
+                return listMail;
+            }
+        }
     }
 
     public class Prompt : IDisposable
@@ -196,6 +233,53 @@ namespace LDBot
             if (prompt != null)
             {
                 prompt.Dispose();
+            }
+        }
+    }
+
+    public class ImageHandle
+    {
+        public static string ImageToBase64String(string file)
+        {
+            Bitmap bitmap = new Bitmap(file);
+
+            MemoryStream ms = new MemoryStream();
+
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            byte[] arr = new byte[ms.Length];
+
+            ms.Position = 0;
+            ms.Read(arr, 0, (int)ms.Length);
+            ms.Close();
+
+            string strBase64 = Convert.ToBase64String(arr);
+
+            return strBase64;
+        }
+        public static string ImageToBase64String(Bitmap bitmap)
+        {
+            MemoryStream ms = new MemoryStream();
+
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            byte[] arr = new byte[ms.Length];
+
+            ms.Position = 0;
+            ms.Read(arr, 0, (int)ms.Length);
+            ms.Close();
+
+            string strBase64 = Convert.ToBase64String(arr);
+
+            return strBase64;
+        }
+        public static Bitmap Base64StringToBitmap(string imgStr)
+        {
+            byte[] bytes = Convert.FromBase64String(imgStr);
+
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                return (Bitmap)Image.FromStream(ms);
             }
         }
     }

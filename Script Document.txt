@@ -28,6 +28,7 @@ _ld: {
 	void writeLog(string log) // Dùng để hiển thị thông tin debug
 	void changeProxy(string proxyConfig) //Change proxy, truyền vào chuỗi rỗng "" để remove proxy
 	string getCurrentIP() //Hiển thị địa chỉ IP hiện tại
+	List<MimeMessage> getAllMails(string mailServer, int port, string mail, string password) //Đọc email IMAP
 #endregion
 #region Các hàm trong ADBHelper
 

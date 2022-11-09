@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using xNet;
+using MimeKit;
 
 namespace LDBot
 {
@@ -40,6 +41,7 @@ namespace LDBot
             if (stt.Length > 0)
                 Helper.raiseOnUpdateLDStatus(_ld.Index, stt);
         }
+
         protected bool findAndClick(string imgPath, double similarPercent = 0.9, int xPlus = 0, int yPlus = 0, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0)
         {
             if (!isRunning)
@@ -226,7 +228,22 @@ namespace LDBot
                 if (data.status == "success")
                     return data.query;
                 return "";
+                
             }
+        }
+
+        protected List<MimeMessage> getAllMails(string mailServer, int port, string mail, string password)
+        {
+            try
+            {
+                return Helper.readMailIMAP(mailServer, port, mail, password);
+            }
+            catch(Exception e)
+            {
+                Helper.raiseOnErrorMessage(e);
+                return null;
+            }
+            
         }
         #endregion
     }
