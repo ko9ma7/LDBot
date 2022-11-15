@@ -404,7 +404,7 @@ namespace LDBot
             this.changeProxyToolStripMenuItem,
             this.changeHardwareToolStripMenuItem});
             this.listLDContextMenuStrip1.Name = "listLDContextMenuStrip1";
-            this.listLDContextMenuStrip1.Size = new System.Drawing.Size(190, 352);
+            this.listLDContextMenuStrip1.Size = new System.Drawing.Size(190, 330);
             // 
             // toolStripSeparator1
             // 
@@ -651,7 +651,7 @@ namespace LDBot
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "LD Bot 1.0";
+            this.Text = "LD Bot 1.1";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
