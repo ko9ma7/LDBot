@@ -9,11 +9,12 @@ using System.Windows.Forms;
 
 using MimeKit;
 using MailKit;
-using MailKit.Search;
 using MailKit.Net.Imap;
 using System.Collections.Generic;
 using System.Web;
 using System.IO;
+using MailKit.Net.Proxy;
+using System.Threading;
 
 namespace LDBot
 {
@@ -153,16 +154,24 @@ namespace LDBot
             }
             catch(Exception e)
             {
-                raiseOnErrorMessage(e);
+                if(e.GetType().Name == "Win32Exception")
+                    raiseOnErrorMessage(new Exception("LD Player folder not found.\nPlease select the directory containing the file ldconsole.exe"));
+                else
+                    raiseOnErrorMessage(e);
                 return "";
             }
         }
 
-        public static List<MimeMessage> readMailIMAP(string mailServer, int port, string email, string password)
+        public static List<MimeMessage> readMailIMAP(string mailServer, int port, string email, string password, string proxyInfo = "")
         {
             using (var client = new ImapClient())
             {
                 List<MimeMessage> listMail = new List<MimeMessage>();
+                if(proxyInfo != "")
+                {
+                    string[] proxy = proxyInfo.Split(':');
+                    client.ProxyClient = new HttpProxyClient(proxy[0], int.Parse(proxy[1]));
+                }    
                 client.Connect(mailServer, port, true);
 
                 client.Authenticate(email, password);
@@ -176,9 +185,35 @@ namespace LDBot
                     listMail.Add(inbox.GetMessage(i));
                 }
 
+                var junk = GetJunkFolder(client, new CancellationToken());
+                junk.Open(FolderAccess.ReadOnly);
+
+                for (int i = 0; i < junk.Count; i++)
+                {
+                    listMail.Add(junk.GetMessage(i));
+                }
+
                 client.Disconnect(true);
                 return listMail;
             }
+        }
+
+        private static IMailFolder GetJunkFolder(ImapClient client, CancellationToken cancellationToken)
+        {
+            var personal = client.GetFolder(client.PersonalNamespaces[0]);
+
+            foreach (var folder in personal.GetSubfolders(false, cancellationToken))
+            {
+                if (folder.Name == "Junk")
+                    return folder;
+            }
+
+            return null;
+        }
+        public static string getFileNameByPath(string filePath)
+        {
+            string[] filePathArr = filePath.Split('\\');
+            return filePathArr[filePathArr.Length - 1];
         }
     }
 

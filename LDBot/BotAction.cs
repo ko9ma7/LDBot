@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using xNet;
 using MimeKit;
+using System.Threading.Tasks;
 
 namespace LDBot
 {
@@ -16,7 +17,7 @@ namespace LDBot
         private Random rd;
         public BotAction(LDEmulator ld)
         {
-            if(ld != null)
+            if (ld != null)
                 _ld = ld;
             rd = new Random();
             isRunning = false;
@@ -27,11 +28,23 @@ namespace LDBot
         {
         }
 
-        public virtual void Start() { }
+        protected virtual void Start() { }
+
+        public virtual void CaptureGuide(string fileName) { }
+
+        public void PreStart()
+        {
+            new Task(delegate
+            {
+                isRunning = true;
+                Start();
+            }).Start();
+        }
 
         public virtual void Stop()
         {
             isRunning = false;
+            setStatus("Stop script");
         }
         #endregion
 
@@ -42,11 +55,12 @@ namespace LDBot
                 Helper.raiseOnUpdateLDStatus(_ld.Index, stt);
         }
 
-        protected bool findAndClick(string imgPath, double similarPercent = 0.9, int xPlus = 0, int yPlus = 0, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0)
+        protected bool findAndClick(string imgPath, double similarPercent = 0.9, bool isClickUntilDisApp = false, int xPlus = 0, int yPlus = 0, int startCropX = 0, int startCropY = 0, int cropWidth = 0, int cropHeight = 0)
         {
             if (!isRunning)
                 return false;
             Bitmap img = (Bitmap)Image.FromFile(imgPath);
+            click_image:
             Bitmap screen = (Bitmap)CaptureHelper.CaptureWindow(_ld.BindHandle);
             bool flag = startCropX != 0 || startCropY != 0 || cropWidth != 0 || cropHeight != 0;
             if (flag)
@@ -58,16 +72,22 @@ namespace LDBot
             bool result;
             if (flag2)
             {
-                setStatus("Image found and click");
+                setStatus(string.Format("{0} found-click", Helper.getFileNameByPath(imgPath)));
                 int Xmore = rd.Next(3);
                 int Ymore = rd.Next(3);
                 //AutoControl.SendClickOnPosition(_ld.TopHandle, point.Value.X + Xmore + xPlus + startCropX, point.Value.Y + Ymore + yPlus + startCropY, EMouseKey.LEFT, 1);
                 ADBHelper.Tap(_ld.DeviceID, point.Value.X + Xmore + xPlus + startCropX, point.Value.Y + Ymore + yPlus + startCropY);
+                if (isClickUntilDisApp)
+                {
+                    delay(1000);
+                    goto click_image;
+                }
+                    
                 result = true;
             }
             else
             {
-                setStatus("Image not found");
+                setStatus(string.Format("{0} not found", Helper.getFileNameByPath(imgPath)));
                 result = false;
             }
             screen.Dispose();
@@ -88,12 +108,32 @@ namespace LDBot
             }
             bool result = ImageScanOpenCV.FindOutPoint(screen, img, similarPercent) != null;
             if (result)
-                setStatus("Image found");
+                setStatus(string.Format("{0} found", Helper.getFileNameByPath(imgPath)));
             else
-                setStatus("Image not found");
+                setStatus(string.Format("{0} not found", Helper.getFileNameByPath(imgPath)));
             screen.Dispose();
             img.Dispose();
             return result;
+        }
+
+        protected void captureImage(string imgName, int startCropX = 0, int startCropY = 0, int right = 0, int bottom = 0)
+        {
+            try
+            {
+                Bitmap screen = (Bitmap)CaptureHelper.CaptureWindow(_ld.BindHandle);
+                bool flag = startCropX != 0 || startCropY != 0 || right != 0 || bottom != 0;
+                if (flag)
+                {
+                    screen = CaptureHelper.CropImage(screen, new Rectangle(startCropX, startCropY, (right - startCropX), (bottom - startCropY)));
+                }
+                screen.Save(_ld.ScriptFolder + "\\" + imgName + ".png");
+                screen.Dispose();
+                Helper.raiseOnWriteLog("Capture " + imgName + ".png done");
+            }
+            catch(Exception e)
+            {
+                Helper.raiseOnErrorMessage(e);
+            }
         }
 
         protected void click(int x, int y, int count = 1)
@@ -165,7 +205,7 @@ namespace LDBot
             setStatus("Get installed packages");
             List<string> installedPackage = new List<string>();
             string[] results = Helper.runCMD(LDManager.adb, string.Format("-s {0} shell cmd package list package", _ld.DeviceID)).Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach(string rs in results)
+            foreach (string rs in results)
             {
                 installedPackage.Add(rs.Replace("package:", "").Trim());
             }
@@ -174,8 +214,6 @@ namespace LDBot
 
         protected void writeLog(string log)
         {
-            if (!isRunning)
-                return;
             if (log.Length > 0)
                 Helper.raiseOnWriteLog(log);
         }
@@ -185,7 +223,7 @@ namespace LDBot
             if (!isRunning)
                 return;
             setStatus("Run " + packageName);
-            LDManager.executeLdConsole(string.Format("runapp --index {0} --packagename {1}",_ld.Index, packageName));
+            LDManager.executeLdConsole(string.Format("runapp --index {0} --packagename {1}", _ld.Index, packageName));
         }
 
         protected void killApp(string packageName)
@@ -228,7 +266,7 @@ namespace LDBot
                 if (data.status == "success")
                     return data.query;
                 return "";
-                
+
             }
         }
 
@@ -236,14 +274,29 @@ namespace LDBot
         {
             try
             {
+                if (_ld.isUseProxy)
+                    return Helper.readMailIMAP(mailServer, port, mail, password, _ld.Proxy);
                 return Helper.readMailIMAP(mailServer, port, mail, password);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Helper.raiseOnErrorMessage(e);
                 return null;
             }
-            
+        } 
+        
+        protected void clearAppData(string packageName)
+        {
+            if (!isRunning)
+                return;
+            setStatus("Clear " + packageName);
+            Helper.runCMD(LDManager.adb, string.Format("-s {0} shell pm clear {1}", _ld.DeviceID, packageName));
+        }
+
+        protected void restartLD()
+        {
+            if(_ld.isRunning)
+                LDManager.restartLD(_ld);
         }
         #endregion
     }

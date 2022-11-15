@@ -100,6 +100,7 @@ namespace LDBot
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.listView1);
             this.Name = "FormError";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormError";
             this.Load += new System.EventHandler(this.FormError_Load);
             this.ResumeLayout(false);

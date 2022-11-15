@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace LDBot
 {
@@ -24,6 +25,11 @@ namespace LDBot
 			{
 				Thread.Sleep(1000);
 				elapsedTime++;
+				if(elapsedTime > 60)
+                {
+					Helper.raiseOnUpdateLDStatus(ld.Index, "LD start failed");
+					break;
+				}					
 				Helper.raiseOnUpdateLDStatus(ld.Index, string.Format("Starting...({0})", elapsedTime));
 				string[] result = Helper.runCMD(ldConsole, "list2").Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 				foreach (string line in result)
@@ -43,7 +49,7 @@ namespace LDBot
 						}
 						isStarted = true;
 						break;
-					}
+					}					
 				}
 				if (isStarted)
 				{
@@ -110,80 +116,92 @@ namespace LDBot
 
 		public static void createLD(string name)
 		{
-			if (name.Length > 0)
+			new Task(delegate
 			{
-				LDManager.executeLdConsole(string.Format("add --name \"{0}\"", name));
-				Helper.raiseOnUpdateMainStatus(string.Format("Create new LD Player \"{0}\" successfully", name));
-			}
+				if (name.Length > 0)
+				{
+					Helper.raiseOnWriteLog(string.Format("Creating new LD Player \"{0}\". Please wait...", name));
+					LDManager.executeLdConsole(string.Format("add --name \"{0}\"", name));
+					Helper.raiseOnWriteLog(string.Format("Create new LD Player \"{0}\" successfully", name));
+				}
+			}).Start();
 		}
 
 		public static void cloneLD(string name, int fromIndex, string fromName)
 		{
-			if (name.Length > 0)
+			new Task(delegate
 			{
-				LDManager.executeLdConsole(string.Format("copy --name \"{0}\" --from {1}", name, fromIndex));
-				Helper.raiseOnUpdateMainStatus(string.Format("Clone from \"{0}\" to \"{1}\" successfully", fromName, name));
-			}
+				if (name.Length > 0)
+				{
+					Helper.raiseOnWriteLog(string.Format("Cloning from \"{0}\" to \"{1}\". Please wait...", fromName, name ));
+					LDManager.executeLdConsole(string.Format("copy --name \"{0}\" --from {1}", name, fromIndex));
+					Helper.raiseOnWriteLog(string.Format("Clone from \"{0}\" to \"{1}\" successfully", fromName, name));
+				}
+			}).Start();
 		}
 
 		public static void changeLDInfo(int index)
 		{
-			try
+			new Task(delegate
 			{
-
-				Random random = new Random();
-				JToken arrDeviceInfo = JToken.Parse(File.ReadAllText("DATA/deviceinfo.json"));
-				JToken deviceInfo = arrDeviceInfo[random.Next(0, arrDeviceInfo.Count() - 1)];
-				JToken manufacturer = deviceInfo["manufacturer"];
-				JToken models = deviceInfo["models"];
-				JToken model = models[random.Next(0, models.Count() - 1)];
-				JToken arrAreaCode = JToken.Parse(File.ReadAllText("DATA/areacode.json"));
-				JToken country = arrAreaCode[0];
-				JToken areaCodes = country["areacode"];
-				JToken areaCode = areaCodes[random.Next(0, areaCodes.Count() - 1)];
-				string imei = "86516602" + Helper.CreateRandomNumber(7, random);
-				string pNumber = "1" + areaCode.ToString() + Helper.CreateRandomNumber(7, random);
-				string imsi = "46000" + Helper.CreateRandomNumber(10, random);
-				string simserial = "898600" + Helper.CreateRandomNumber(14, random);
-				string androidid = Helper.Md5Encode(Helper.CreateRandomStringNumber(32, random), "x2").Substring(random.Next(0, 16), 16);
-
-				string command = string.Concat(new string[]
+				try
 				{
-					"modify --index ", index.ToString(),
-					" --imei ", imei,
-					" --model \"", model.ToString(),
-					"\" --manufacturer ", manufacturer.ToString(),
-					" --pnumber ", pNumber,
-					" --imsi ", imsi,
-					" --simserial ", simserial,
-					" --androidid ", androidid,
-					" --resolution 320,480,120",
-					" --cpu 1 --memory 1024",
-					" --mac auto"
-				});
-				LDManager.executeLdConsole(command);
 
-				Helper.raiseOnWriteLog(command);
-				Helper.raiseOnUpdateLDStatus(index, "Change LD info OK");
-			}
-			catch (Exception e)
-			{
-				Helper.raiseOnErrorMessage(e);
-			}
+					Random random = new Random();
+					JToken arrDeviceInfo = JToken.Parse(File.ReadAllText("DATA/deviceinfo.json"));
+					JToken deviceInfo = arrDeviceInfo[random.Next(0, arrDeviceInfo.Count() - 1)];
+					JToken manufacturer = deviceInfo["manufacturer"];
+					JToken models = deviceInfo["models"];
+					JToken model = models[random.Next(0, models.Count() - 1)];
+					JToken arrAreaCode = JToken.Parse(File.ReadAllText("DATA/areacode.json"));
+					JToken country = arrAreaCode[0];
+					JToken areaCodes = country["areacode"];
+					JToken areaCode = areaCodes[random.Next(0, areaCodes.Count() - 1)];
+					string imei = "86516602" + Helper.CreateRandomNumber(7, random);
+					string pNumber = "1" + areaCode.ToString() + Helper.CreateRandomNumber(7, random);
+					string imsi = "46000" + Helper.CreateRandomNumber(10, random);
+					string simserial = "898600" + Helper.CreateRandomNumber(14, random);
+					string androidid = Helper.Md5Encode(Helper.CreateRandomStringNumber(32, random), "x2").Substring(random.Next(0, 16), 16);
+
+					string command = string.Concat(new string[]
+					{
+						"modify --index ", index.ToString(),
+						" --imei ", imei,
+						" --model \"", model.ToString(),
+						"\" --manufacturer ", manufacturer.ToString(),
+						" --pnumber ", pNumber,
+						" --imsi ", imsi,
+						" --simserial ", simserial,
+						" --androidid ", androidid,
+						" --mac auto"
+					});
+					LDManager.executeLdConsole(command);
+
+					Helper.raiseOnWriteLog(command);
+					Helper.raiseOnUpdateLDStatus(index, "Change LD info OK");
+				}
+				catch (Exception e)
+				{
+					Helper.raiseOnErrorMessage(e);
+				}
+			}).Start();
 		}
 
 		public static void removeLD(int index)
 		{
-			try
+			new Task(delegate
 			{
-				LDManager.executeLdConsole(string.Format("remove --index {0}", index));
-				LDManager.listEmulator.RemoveAt(LDManager.listEmulator.FindIndex((LDEmulator l) => l.Index == index));
-				Helper.raiseOnUpdateMainStatus("Player deleted successful");
-			}
-			catch (Exception e)
-			{
-				Helper.raiseOnErrorMessage(e);
-			}
+					try
+				{
+					LDManager.executeLdConsole(string.Format("remove --index {0}", index));
+					LDManager.listEmulator.RemoveAt(LDManager.listEmulator.FindIndex((LDEmulator l) => l.Index == index));
+					Helper.raiseOnUpdateMainStatus("Player deleted successful");
+				}
+				catch (Exception e)
+				{
+					Helper.raiseOnErrorMessage(e);
+				}
+			}).Start();
 		}
 
 		public static void runLD(LDEmulator ld)
@@ -213,11 +231,16 @@ namespace LDBot
 			{
 				Thread thread = new Thread((ThreadStart)delegate
 				{
-					Helper.raiseOnUpdateLDStatus(ld.Index, "Rebooting...");
-					LDManager.executeLdConsole("reboot --index " + ld.Index);
-					Thread.Sleep(3000);
-					getLDInfo(ld);
-					LDManager.executeLdConsole("sortWnd");
+					if (ld.isRunning)
+					{
+						Helper.raiseOnUpdateLDStatus(ld.Index, "Rebooting...");
+						LDManager.executeLdConsole("reboot --index " + ld.Index);
+						Thread.Sleep(3000);
+						getLDInfo(ld);
+						LDManager.executeLdConsole("sortWnd");
+					}
+					else
+						Helper.raiseOnUpdateLDStatus(ld.Index, "LD has not started");
 				});
 				thread.IsBackground = true;
 				thread.Name = "LD" + ld.Index.ToString();
@@ -264,7 +287,7 @@ namespace LDBot
 			{
 				if (ld != null)
 				{
-					ld.botAction.Start();
+					ld.botAction.PreStart();
 				}
 			}
 			catch (Exception e)

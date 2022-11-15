@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using KAutoHelper;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace LDBot
 {
@@ -19,6 +20,7 @@ namespace LDBot
         {
             InitializeComponent();
             this.Location = new Point(Screen.GetBounds(this).Right - this.Width, 0);
+            this.Size = new Size(445, Screen.GetBounds(this).Height - 35);
             Helper.onUpdateMainStatus += ((stt) => updateStatus(stt));
             Helper.onErrorMessage += ((err) => showError(err));
             Helper.onUpdateLDStatus += ((ldIndex, stt) => updateLDStatus(ldIndex, stt));
@@ -54,7 +56,7 @@ namespace LDBot
             }
             else
             {
-                    MessageBox.Show(string.Format("{0}\nInner: {1}\nSource: {2}", err.Message, err.InnerException?.ToString(), err.Source), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(string.Format("{0}\nTarget: {1}\nType: {2}", err.Message, err.TargetSite?.Name, err.GetType().Name), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -114,16 +116,16 @@ namespace LDBot
                             configFileContent["basicSettings.adbDebug"] = 1;
                             isNeedEdit = true;
                         }
-                        if (configFileContent["advancedSettings.resolution"] == null || configFileContent["advancedSettings.resolution"]["width"].ToString() != ConfigurationManager.AppSettings["DefaultWidth"])
-                        {
-                            configFileContent["advancedSettings.resolution"] = JToken.Parse(string.Format("{{ \"width\": {0}, \"height\": {1} }}", ConfigurationManager.AppSettings["DefaultWidth"], ConfigurationManager.AppSettings["DefaultHeight"]));
-                            configFileContent["advancedSettings.resolutionDpi"] = 120;
-                            //configFileContent["basicSettings.width"] = -1;
-                            //configFileContent["basicSettings.height"] = -1;
-                            //configFileContent["basicSettings.realHeigh"] = -1;
-                            //configFileContent["basicSettings.realWidth"] = -1;
-                            isNeedEdit = true;
-                        }
+                        //if (configFileContent["advancedSettings.resolution"] == null || configFileContent["advancedSettings.resolution"]["width"].ToString() != ConfigurationManager.AppSettings["DefaultWidth"])
+                        //{
+                        //    configFileContent["advancedSettings.resolution"] = JToken.Parse(string.Format("{{ \"width\": {0}, \"height\": {1} }}", ConfigurationManager.AppSettings["DefaultWidth"], ConfigurationManager.AppSettings["DefaultHeight"]));
+                        //    configFileContent["advancedSettings.resolutionDpi"] = 120;
+                        //    //configFileContent["basicSettings.width"] = -1;
+                        //    //configFileContent["basicSettings.height"] = -1;
+                        //    //configFileContent["basicSettings.realHeigh"] = -1;
+                        //    //configFileContent["basicSettings.realWidth"] = -1;
+                        //    isNeedEdit = true;
+                        //}
                         if(configFileContent["basicSettings.rightToolBar"] == null || bool.Parse(configFileContent["basicSettings.rightToolBar"].ToString()) == true)
                         {
                             configFileContent["basicSettings.rightToolBar"] = false;
@@ -172,6 +174,9 @@ namespace LDBot
                 Helper.AddOrUpdateAppSettings("DefaultWidth", txt_DefaultLDWidth.Value.ToString());
             if (txt_DefaultLDHeight.Value > 0)
                 Helper.AddOrUpdateAppSettings("DefaultHeight", txt_DefaultLDHeight.Value.ToString());
+
+            MessageBox.Show("Please re-open the application to load new configuration!", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.Close();
         }
 
         private void createNewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -281,6 +286,7 @@ namespace LDBot
             {
                 LDEmulator ld = list_Emulator.SelectedItems[0].Tag as LDEmulator;
                 LDManager.quitLD(ld.Index);
+                ld.isRunning = false;
             }
         }
 
@@ -487,6 +493,101 @@ namespace LDBot
                 LDEmulator ld = list_Emulator.SelectedItems[0].Tag as LDEmulator;
                 Helper.runCMD("explorer.exe", ld.ScriptFolder);
             }
+        }
+
+        private void changeHardwareToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (list_Emulator.SelectedItems.Count > 0)
+            {
+                LDEmulator ld = list_Emulator.SelectedItems[0].Tag as LDEmulator;
+                new FormLDHardware(new List<LDEmulator>{ld}).Show();
+            }
+            
+        }
+
+        private void deletesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to delete selected LDs?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                if (list_Emulator.SelectedItems.Count > 0)
+                {
+                    foreach (object selectedLD in list_Emulator.SelectedItems)
+                    {
+                        LDEmulator ld = ((ListViewItem)selectedLD).Tag as LDEmulator;
+                        LDManager.removeLD(ld.Index);
+                        ((ListViewItem)selectedLD).Remove();
+                    }
+                }
+            }
+        }
+
+        private void rebootToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to reboot selected LDs?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                if (list_Emulator.SelectedItems.Count > 0)
+                {
+                    foreach (object selectedLD in list_Emulator.SelectedItems)
+                    {
+                        LDEmulator ld = ((ListViewItem)selectedLD).Tag as LDEmulator;
+                        LDManager.restartLD(ld);
+                    }
+                }
+            }
+        }
+
+        private void closesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to shutdown selected LDs?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                if (list_Emulator.SelectedItems.Count > 0)
+                {
+                    foreach (object selectedLD in list_Emulator.SelectedItems)
+                    {
+                        LDEmulator ld = ((ListViewItem)selectedLD).Tag as LDEmulator;
+                        LDManager.quitLD(ld.Index);
+                    }
+                }
+            }
+        }
+
+        private void changeInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to change phone model of selected LDs?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                if (list_Emulator.SelectedItems.Count > 0)
+                {
+                    foreach (object selectedLD in list_Emulator.SelectedItems)
+                    {
+                        LDEmulator ld = ((ListViewItem)selectedLD).Tag as LDEmulator;
+                        LDManager.changeLDInfo(ld.Index);
+                    }
+                }
+            }
+        }
+
+        private void changeHardwareToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (list_Emulator.SelectedItems.Count > 0)
+            {
+                List<LDEmulator> selectedList = new List<LDEmulator>();
+                foreach (object selectedLD in list_Emulator.SelectedItems)
+                {
+                    LDEmulator ld = ((ListViewItem)selectedLD).Tag as LDEmulator;
+                    selectedList.Add(ld);
+                }
+                new FormLDHardware(selectedList).Show();
+            }
+        }
+
+        private void captureGuideToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (list_Emulator.SelectedItems.Count > 0)
+            {
+                LDEmulator ld = list_Emulator.SelectedItems[0].Tag as LDEmulator;
+                new FormGuideCapture(ld).Show();
+            }
+            
         }
     }
 }
