@@ -29,6 +29,7 @@ namespace LDBot
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLDHardware));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -41,6 +42,7 @@ namespace LDBot
             this.txt_DPI = new System.Windows.Forms.TextBox();
             this.lbl_LDName = new System.Windows.Forms.Label();
             this.btn_saveLDHardware = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -99,34 +101,44 @@ namespace LDBot
             this.txt_CPU.Name = "txt_CPU";
             this.txt_CPU.Size = new System.Drawing.Size(72, 26);
             this.txt_CPU.TabIndex = 1;
+            this.txt_CPU.Text = "2";
+            this.txt_CPU.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_RAM
             // 
             this.txt_RAM.Location = new System.Drawing.Point(191, 48);
             this.txt_RAM.Name = "txt_RAM";
             this.txt_RAM.Size = new System.Drawing.Size(72, 26);
-            this.txt_RAM.TabIndex = 1;
+            this.txt_RAM.TabIndex = 2;
+            this.txt_RAM.Text = "2048";
+            this.txt_RAM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_Width
             // 
             this.txt_Width.Location = new System.Drawing.Point(60, 101);
             this.txt_Width.Name = "txt_Width";
             this.txt_Width.Size = new System.Drawing.Size(72, 26);
-            this.txt_Width.TabIndex = 1;
+            this.txt_Width.TabIndex = 3;
+            this.txt_Width.Text = "320";
+            this.txt_Width.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_Height
             // 
             this.txt_Height.Location = new System.Drawing.Point(191, 101);
             this.txt_Height.Name = "txt_Height";
             this.txt_Height.Size = new System.Drawing.Size(72, 26);
-            this.txt_Height.TabIndex = 1;
+            this.txt_Height.TabIndex = 4;
+            this.txt_Height.Text = "480";
+            this.txt_Height.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_DPI
             // 
-            this.txt_DPI.Location = new System.Drawing.Point(55, 154);
+            this.txt_DPI.Location = new System.Drawing.Point(60, 154);
             this.txt_DPI.Name = "txt_DPI";
             this.txt_DPI.Size = new System.Drawing.Size(72, 26);
-            this.txt_DPI.TabIndex = 1;
+            this.txt_DPI.TabIndex = 5;
+            this.txt_DPI.Text = "120";
+            this.txt_DPI.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // lbl_LDName
             // 
@@ -140,19 +152,31 @@ namespace LDBot
             // 
             // btn_saveLDHardware
             // 
-            this.btn_saveLDHardware.Location = new System.Drawing.Point(97, 186);
+            this.btn_saveLDHardware.Location = new System.Drawing.Point(140, 151);
             this.btn_saveLDHardware.Name = "btn_saveLDHardware";
-            this.btn_saveLDHardware.Size = new System.Drawing.Size(75, 33);
-            this.btn_saveLDHardware.TabIndex = 3;
+            this.btn_saveLDHardware.Size = new System.Drawing.Size(123, 33);
+            this.btn_saveLDHardware.TabIndex = 6;
             this.btn_saveLDHardware.Text = "Save";
             this.btn_saveLDHardware.UseVisualStyleBackColor = true;
             this.btn_saveLDHardware.Click += new System.EventHandler(this.btn_saveLDHardware_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.DarkRed;
+            this.label6.Location = new System.Drawing.Point(6, 201);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(268, 15);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Shutdown LD before changing hardware!";
             // 
             // FormLDHardware
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(279, 231);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btn_saveLDHardware);
             this.Controls.Add(this.lbl_LDName);
             this.Controls.Add(this.txt_Height);
@@ -166,10 +190,15 @@ namespace LDBot
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(295, 270);
+            this.MinimumSize = new System.Drawing.Size(295, 270);
             this.Name = "FormLDHardware";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormLDHardware";
+            this.Text = "Change LD Hardware ";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -189,5 +218,6 @@ namespace LDBot
         private System.Windows.Forms.TextBox txt_DPI;
         private System.Windows.Forms.Label lbl_LDName;
         private System.Windows.Forms.Button btn_saveLDHardware;
+        private System.Windows.Forms.Label label6;
     }
 }

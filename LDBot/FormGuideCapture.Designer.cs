@@ -31,10 +31,10 @@ namespace LDBot
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGuideCapture));
             this.btn_Capture = new System.Windows.Forms.Button();
-            this.pic_CurrentView = new System.Windows.Forms.PictureBox();
             this.lbl_ImageCount = new System.Windows.Forms.Label();
             this.lst_ImgGuide = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.pic_CurrentView = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pic_CurrentView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,15 +47,6 @@ namespace LDBot
             this.btn_Capture.Text = "Capture";
             this.btn_Capture.UseVisualStyleBackColor = true;
             this.btn_Capture.Click += new System.EventHandler(this.btn_Capture_Click);
-            // 
-            // pic_CurrentView
-            // 
-            this.pic_CurrentView.Location = new System.Drawing.Point(76, 12);
-            this.pic_CurrentView.Name = "pic_CurrentView";
-            this.pic_CurrentView.Size = new System.Drawing.Size(530, 340);
-            this.pic_CurrentView.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pic_CurrentView.TabIndex = 0;
-            this.pic_CurrentView.TabStop = false;
             // 
             // lbl_ImageCount
             // 
@@ -85,6 +76,15 @@ namespace LDBot
             // 
             this.columnHeader1.Text = "Img Index";
             // 
+            // pic_CurrentView
+            // 
+            this.pic_CurrentView.Location = new System.Drawing.Point(76, 12);
+            this.pic_CurrentView.Name = "pic_CurrentView";
+            this.pic_CurrentView.Size = new System.Drawing.Size(530, 340);
+            this.pic_CurrentView.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pic_CurrentView.TabIndex = 0;
+            this.pic_CurrentView.TabStop = false;
+            // 
             // FormGuideCapture
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -95,7 +95,11 @@ namespace LDBot
             this.Controls.Add(this.btn_Capture);
             this.Controls.Add(this.pic_CurrentView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(634, 436);
+            this.MinimumSize = new System.Drawing.Size(634, 436);
             this.Name = "FormGuideCapture";
+            this.ShowInTaskbar = false;
             this.Text = "Capture Guide";
             this.Load += new System.EventHandler(this.FormGuideCapture_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pic_CurrentView)).EndInit();
