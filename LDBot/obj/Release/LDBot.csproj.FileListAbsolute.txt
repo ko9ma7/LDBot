@@ -42,3 +42,4 @@ D:\Projects\LDBot\LDBot\obj\Release\LDBot.csproj.CopyComplete
 D:\Projects\LDBot\LDBot\obj\Release\LDBot.exe
 D:\Projects\LDBot\LDBot\obj\Release\LDBot.pdb
 D:\Projects\LDBot\LDBot\obj\Release\LDBot.FormGuideCapture.resources
+D:\Projects\LDBot\LDBot\obj\Release\LDBot.csproj.AssemblyReference.cache
