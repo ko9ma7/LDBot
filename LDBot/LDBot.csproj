@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
+    <ApplicationVersion>1.1.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -191,6 +191,8 @@
   <ItemGroup>
     <Content Include="LDBot_Icon.ico" />
     <Content Include="ldplayer220-220.ico" />
+    <None Include="Resources\icons8-paste-30.png" />
+    <None Include="Resources\icons8-copy-64.png" />
     <None Include="Resources\icons8-capture-32.png" />
     <None Include="Resources\icons8-microchip-16.png" />
     <None Include="Resources\folder.png" />

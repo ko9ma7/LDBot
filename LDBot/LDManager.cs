@@ -122,6 +122,7 @@ namespace LDBot
 				{
 					Helper.raiseOnWriteLog(string.Format("Creating new LD Player \"{0}\". Please wait...", name));
 					LDManager.executeLdConsole(string.Format("add --name \"{0}\"", name));
+					Helper.raiseOnLoadListLD();
 					Helper.raiseOnWriteLog(string.Format("Create new LD Player \"{0}\" successfully", name));
 				}
 			}).Start();
@@ -135,6 +136,7 @@ namespace LDBot
 				{
 					Helper.raiseOnWriteLog(string.Format("Cloning from \"{0}\" to \"{1}\". Please wait...", fromName, name ));
 					LDManager.executeLdConsole(string.Format("copy --name \"{0}\" --from {1}", name, fromIndex));
+					Helper.raiseOnLoadListLD();
 					Helper.raiseOnWriteLog(string.Format("Clone from \"{0}\" to \"{1}\" successfully", fromName, name));
 				}
 			}).Start();
@@ -187,15 +189,16 @@ namespace LDBot
 			}).Start();
 		}
 
-		public static void removeLD(int index)
+		public static void removeLD(LDEmulator ld)
 		{
 			new Task(delegate
 			{
-					try
+				try
 				{
-					LDManager.executeLdConsole(string.Format("remove --index {0}", index));
-					LDManager.listEmulator.RemoveAt(LDManager.listEmulator.FindIndex((LDEmulator l) => l.Index == index));
-					Helper.raiseOnUpdateMainStatus("Player deleted successful");
+					LDManager.executeLdConsole(string.Format("remove --index {0}", ld.Index));
+					Directory.Delete(ld.ScriptFolder, true);
+					LDManager.listEmulator.RemoveAt(LDManager.listEmulator.FindIndex((LDEmulator l) => l.Index == ld.Index));
+					Helper.raiseOnWriteLog(string.Format("{0} deleted successful", ld.Name));
 				}
 				catch (Exception e)
 				{

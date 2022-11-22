@@ -103,9 +103,29 @@ namespace LDBot.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_copy_64 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-copy-64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_microchip_16 {
             get {
                 object obj = ResourceManager.GetObject("icons8-microchip-16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_paste_30 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-paste-30", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -24,6 +24,8 @@ namespace LDBot
         public static event dlgErrorMessage onErrorMessage;
         public static event dlgUpdateLDStatus onUpdateLDStatus;
         public static event dlgWriteLog onWriteLog;
+        public static event dlgLoadListLD onLoadListLD;
+
         public static void AddOrUpdateAppSettings(string key, string value)
         {
             try
@@ -129,6 +131,14 @@ namespace LDBot
                 return;
             else
                 onWriteLog(log);
+        }
+
+        public static void raiseOnLoadListLD()
+        {
+            if (onLoadListLD == null)
+                return;
+            else
+                onLoadListLD();
         }
 
         public static string runCMD(string fileName, string arg)

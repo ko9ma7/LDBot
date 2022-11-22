@@ -37,6 +37,7 @@ namespace LDBot
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.changeLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.stt_main = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -61,6 +62,8 @@ namespace LDBot
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.copyScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deletesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,6 +73,7 @@ namespace LDBot
             this.loadScriptSelectedsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startScriptSelectedsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopScriptSelectedsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteScriptsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.installAPKSelectedsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeProxyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.changeInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,7 +109,8 @@ namespace LDBot
             this.menuStrip1.BackColor = System.Drawing.Color.Silver;
             this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menu_LDEmulator});
+            this.menu_LDEmulator,
+            this.changeLogToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(429, 29);
@@ -127,6 +132,7 @@ namespace LDBot
             this.loadScriptSelectedsToolStripMenuItem,
             this.startScriptSelectedsToolStripMenuItem,
             this.stopScriptSelectedsToolStripMenuItem,
+            this.pasteScriptsToolStripMenuItem,
             this.toolStripSeparator5,
             this.installAPKSelectedsToolStripMenuItem,
             this.changeProxyToolStripMenuItem1,
@@ -155,6 +161,13 @@ namespace LDBot
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(243, 6);
+            // 
+            // changeLogToolStripMenuItem
+            // 
+            this.changeLogToolStripMenuItem.Name = "changeLogToolStripMenuItem";
+            this.changeLogToolStripMenuItem.Size = new System.Drawing.Size(105, 25);
+            this.changeLogToolStripMenuItem.Text = "Change Log";
+            this.changeLogToolStripMenuItem.Click += new System.EventHandler(this.changeLogToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -398,13 +411,15 @@ namespace LDBot
             this.stopScriptToolStripMenuItem,
             this.openFolderToolStripMenuItem,
             this.captureGuideToolStripMenuItem,
+            this.copyScriptToolStripMenuItem,
+            this.pasteScriptToolStripMenuItem,
             this.toolStripSeparator3,
             this.installAPKToolStripMenuItem,
             this.changeInfoToolStripMenuItem1,
             this.changeProxyToolStripMenuItem,
             this.changeHardwareToolStripMenuItem});
             this.listLDContextMenuStrip1.Name = "listLDContextMenuStrip1";
-            this.listLDContextMenuStrip1.Size = new System.Drawing.Size(190, 330);
+            this.listLDContextMenuStrip1.Size = new System.Drawing.Size(190, 374);
             // 
             // toolStripSeparator1
             // 
@@ -420,6 +435,22 @@ namespace LDBot
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(186, 6);
+            // 
+            // copyScriptToolStripMenuItem
+            // 
+            this.copyScriptToolStripMenuItem.Image = global::LDBot.Properties.Resources.icons8_copy_64;
+            this.copyScriptToolStripMenuItem.Name = "copyScriptToolStripMenuItem";
+            this.copyScriptToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.copyScriptToolStripMenuItem.Text = "Copy Script";
+            this.copyScriptToolStripMenuItem.Click += new System.EventHandler(this.copyScriptToolStripMenuItem_Click);
+            // 
+            // pasteScriptToolStripMenuItem
+            // 
+            this.pasteScriptToolStripMenuItem.Image = global::LDBot.Properties.Resources.icons8_paste_30;
+            this.pasteScriptToolStripMenuItem.Name = "pasteScriptToolStripMenuItem";
+            this.pasteScriptToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.pasteScriptToolStripMenuItem.Text = "Paste Script";
+            this.pasteScriptToolStripMenuItem.Click += new System.EventHandler(this.pasteScriptToolStripMenuItem_Click);
             // 
             // createNewToolStripMenuItem
             // 
@@ -494,6 +525,14 @@ namespace LDBot
             this.stopScriptSelectedsToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
             this.stopScriptSelectedsToolStripMenuItem.Text = "Stop Script(s)";
             this.stopScriptSelectedsToolStripMenuItem.Click += new System.EventHandler(this.stopScriptSelectedsToolStripMenuItem_Click);
+            // 
+            // pasteScriptsToolStripMenuItem
+            // 
+            this.pasteScriptsToolStripMenuItem.Image = global::LDBot.Properties.Resources.icons8_paste_30;
+            this.pasteScriptsToolStripMenuItem.Name = "pasteScriptsToolStripMenuItem";
+            this.pasteScriptsToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.pasteScriptsToolStripMenuItem.Text = "Paste Script(s)";
+            this.pasteScriptsToolStripMenuItem.Click += new System.EventHandler(this.pasteScriptsToolStripMenuItem_Click);
             // 
             // installAPKSelectedsToolStripMenuItem
             // 
@@ -651,7 +690,7 @@ namespace LDBot
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "LD Bot 1.1";
+            this.Text = "LD Bot ";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -730,6 +769,10 @@ namespace LDBot
         private System.Windows.Forms.ToolStripMenuItem changeInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeHardwareToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem captureGuideToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyScriptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pasteScriptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pasteScriptsToolStripMenuItem;
     }
 }
 

@@ -9,6 +9,8 @@ using System.Runtime.InteropServices;
 using KAutoHelper;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Reflection;
 
 namespace LDBot
 {
@@ -25,6 +27,7 @@ namespace LDBot
             Helper.onErrorMessage += ((err) => showError(err));
             Helper.onUpdateLDStatus += ((ldIndex, stt) => updateLDStatus(ldIndex, stt));
             Helper.onWriteLog += ((log) => writeLog(log));
+            Helper.onLoadListLD += (() => loadEmulatorListView());
         }
 
         private void loadConfig()
@@ -89,61 +92,82 @@ namespace LDBot
             }    
         }
 
+        private void pasteScript(LDEmulator ld)
+        {
+            if(Clipboard.ContainsFileDropList())
+            {
+                StringCollection copiedScripts = Clipboard.GetFileDropList();
+                foreach(string script in copiedScripts)
+                {
+                    File.Copy(script, ld.ScriptFolder + "\\" + Helper.getFileNameByPath(script), true);
+                    writeLog(string.Format("Copy {0} to {1}", Helper.getFileNameByPath(script), ld.ScriptFolder));
+                }    
+                
+            }    
+        }
+
         private void loadEmulatorListView()
         {
-            try
+            if (this.InvokeRequired)
             {
-                LDManager.getAllLD();
-                foreach (LDEmulator ld in LDManager.listEmulator)
+                this.Invoke(new MethodInvoker(() => loadEmulatorListView()));
+            }
+            else
+            {
+                try
                 {
-                    if (!this.list_Emulator.Items.ContainsKey(ld.Index.ToString()))
+                    LDManager.getAllLD();
+                    foreach (LDEmulator ld in LDManager.listEmulator)
                     {
-                        ListViewItem listViewItem = new ListViewItem(ld.Index.ToString())
+                        if (!this.list_Emulator.Items.ContainsKey(ld.Index.ToString()))
                         {
-                            Name = ld.Index.ToString(),
-                            SubItems = {
-                            ld.Name,
-                            ld.isRunning ? "Running" : "Stop"
-                        },
-                            UseItemStyleForSubItems = false
-                        };
-                        listViewItem.Tag = ld;
-                        this.list_Emulator.Items.Add(listViewItem);
-                        JToken configFileContent = JToken.Parse(File.ReadAllText(string.Format("{0}\\vms\\config\\leidian{1}.config", ConfigurationManager.AppSettings["LDPath"], ld.Index)));
-                        bool isNeedEdit = false;
-                        if (configFileContent["basicSettings.adbDebug"] == null || configFileContent["basicSettings.adbDebug"].ToString() == "0")
-                        {
-                            configFileContent["basicSettings.adbDebug"] = 1;
-                            isNeedEdit = true;
+                            ListViewItem listViewItem = new ListViewItem(ld.Index.ToString())
+                            {
+                                Name = ld.Index.ToString(),
+                                SubItems = {
+                                ld.Name,
+                                ld.isRunning ? "Running" : "Stop"
+                            },
+                                UseItemStyleForSubItems = false
+                            };
+                            listViewItem.Tag = ld;
+                            this.list_Emulator.Items.Add(listViewItem);
+                            JToken configFileContent = JToken.Parse(File.ReadAllText(string.Format("{0}\\vms\\config\\leidian{1}.config", ConfigurationManager.AppSettings["LDPath"], ld.Index)));
+                            bool isNeedEdit = false;
+                            if (configFileContent["basicSettings.adbDebug"] == null || configFileContent["basicSettings.adbDebug"].ToString() == "0")
+                            {
+                                configFileContent["basicSettings.adbDebug"] = 1;
+                                isNeedEdit = true;
+                            }
+                            //if (configFileContent["advancedSettings.resolution"] == null || configFileContent["advancedSettings.resolution"]["width"].ToString() != ConfigurationManager.AppSettings["DefaultWidth"])
+                            //{
+                            //    configFileContent["advancedSettings.resolution"] = JToken.Parse(string.Format("{{ \"width\": {0}, \"height\": {1} }}", ConfigurationManager.AppSettings["DefaultWidth"], ConfigurationManager.AppSettings["DefaultHeight"]));
+                            //    configFileContent["advancedSettings.resolutionDpi"] = 120;
+                            //    //configFileContent["basicSettings.width"] = -1;
+                            //    //configFileContent["basicSettings.height"] = -1;
+                            //    //configFileContent["basicSettings.realHeigh"] = -1;
+                            //    //configFileContent["basicSettings.realWidth"] = -1;
+                            //    isNeedEdit = true;
+                            //}
+                            if (configFileContent["basicSettings.rightToolBar"] == null || bool.Parse(configFileContent["basicSettings.rightToolBar"].ToString()) == true)
+                            {
+                                configFileContent["basicSettings.rightToolBar"] = false;
+                                isNeedEdit = true;
+                            }
+                            if (isNeedEdit)
+                            {
+                                string rs = configFileContent.ToString();
+                                File.WriteAllText(string.Format("{0}\\vms\\config\\leidian{1}.config", ConfigurationManager.AppSettings["LDPath"], ld.Index), rs);
+                            }
                         }
-                        //if (configFileContent["advancedSettings.resolution"] == null || configFileContent["advancedSettings.resolution"]["width"].ToString() != ConfigurationManager.AppSettings["DefaultWidth"])
-                        //{
-                        //    configFileContent["advancedSettings.resolution"] = JToken.Parse(string.Format("{{ \"width\": {0}, \"height\": {1} }}", ConfigurationManager.AppSettings["DefaultWidth"], ConfigurationManager.AppSettings["DefaultHeight"]));
-                        //    configFileContent["advancedSettings.resolutionDpi"] = 120;
-                        //    //configFileContent["basicSettings.width"] = -1;
-                        //    //configFileContent["basicSettings.height"] = -1;
-                        //    //configFileContent["basicSettings.realHeigh"] = -1;
-                        //    //configFileContent["basicSettings.realWidth"] = -1;
-                        //    isNeedEdit = true;
-                        //}
-                        if(configFileContent["basicSettings.rightToolBar"] == null || bool.Parse(configFileContent["basicSettings.rightToolBar"].ToString()) == true)
-                        {
-                            configFileContent["basicSettings.rightToolBar"] = false;
-                            isNeedEdit = true;
-                        }    
-                        if (isNeedEdit)
-                        {
-                            string rs = configFileContent.ToString();
-                            File.WriteAllText(string.Format("{0}\\vms\\config\\leidian{1}.config", ConfigurationManager.AppSettings["LDPath"], ld.Index), rs);
-                        }    
                     }
                 }
+                catch (Exception e)
+                {
+                    showError(e);
+                }
             }
-            catch(Exception e)
-            {
-                showError(e);
-             }
-}
+        }
 
         private void lbl_BrowseLDFolder_Click(object sender, EventArgs e)
         {
@@ -194,6 +218,7 @@ namespace LDBot
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            this.Text += Assembly.GetExecutingAssembly().GetName().Version.ToString();
             loadConfig();
             loadEmulatorListView();
             if(!Directory.Exists(ConfigurationManager.AppSettings["LDPath"] + "\\Scripts"))
@@ -330,7 +355,7 @@ namespace LDBot
                 if (list_Emulator.SelectedItems.Count > 0)
                 {
                     LDEmulator ld = list_Emulator.SelectedItems[0].Tag as LDEmulator;
-                    LDManager.removeLD(ld.Index);
+                    LDManager.removeLD(ld);
                     list_Emulator.SelectedItems[0].Remove();
                 }
                 else
@@ -514,7 +539,7 @@ namespace LDBot
                     foreach (object selectedLD in list_Emulator.SelectedItems)
                     {
                         LDEmulator ld = ((ListViewItem)selectedLD).Tag as LDEmulator;
-                        LDManager.removeLD(ld.Index);
+                        LDManager.removeLD(ld);
                         ((ListViewItem)selectedLD).Remove();
                     }
                 }
@@ -588,6 +613,60 @@ namespace LDBot
                 new FormGuideCapture(ld).Show();
             }
             
+        }
+
+        private void changeLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string changeLog = string.Format("1.1.2:\n- (New) Copy/Paste script from LD to other LD.\n\n1.1.1:\n- (Fixed) List view bug when create/clone/delete LD.\n- (Fixed) Delete script directory when LD deleted.\n\n1.1:\n- (New) Capture guide.");
+            MessageBox.Show(changeLog,"Change Log", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void copyScriptToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (list_Emulator.SelectedItems.Count > 0)
+            {
+                LDEmulator ld = list_Emulator.SelectedItems[0].Tag as LDEmulator;
+                string[] fileScript = Directory.GetFiles(ld.ScriptFolder, "*.cs");
+                StringCollection filePaths = new StringCollection();
+                foreach(string file in fileScript)
+                {
+                    filePaths.Add(file);
+                }    
+                if(fileScript.Length > 0)
+                {
+                    Clipboard.SetFileDropList(filePaths);
+                    writeLog("Copy " + fileScript.Length + " script file to clipboard");
+                }    
+            }
+        }
+
+        private void pasteScriptToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to overwrite script of selected LD?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                if (list_Emulator.SelectedItems.Count > 0)
+                {
+                    LDEmulator ld = list_Emulator.SelectedItems[0].Tag as LDEmulator;
+                    pasteScript(ld);
+                    Clipboard.Clear();
+                }
+            }
+        }
+
+        private void pasteScriptsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to overwrite script of selected LDs?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                if (list_Emulator.SelectedItems.Count > 0)
+                {
+                    foreach (object selectedLD in list_Emulator.SelectedItems)
+                    {
+                        LDEmulator ld = ((ListViewItem)selectedLD).Tag as LDEmulator;
+                        pasteScript(ld);
+                    }
+                    Clipboard.Clear();
+                }
+            }
         }
     }
 }
