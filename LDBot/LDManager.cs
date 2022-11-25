@@ -216,7 +216,7 @@ namespace LDBot
 					Helper.raiseOnUpdateLDStatus(ld.Index, "Starting...");
 					LDManager.executeLdConsole("launch --index " + ld.Index);
 					getLDInfo(ld);
-					LDManager.executeLdConsole("sortWnd");
+					//LDManager.executeLdConsole("sortWnd");
 				});
 				thread.IsBackground = true;
 				thread.Name = "LD" + ld.Index.ToString();
