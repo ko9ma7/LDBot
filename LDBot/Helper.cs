@@ -15,6 +15,7 @@ using System.Web;
 using System.IO;
 using MailKit.Net.Proxy;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace LDBot
 {
@@ -26,6 +27,17 @@ namespace LDBot
         public static event dlgWriteLog onWriteLog;
         public static event dlgLoadListLD onLoadListLD;
 
+        [DllImport("gdi32.dll", EntryPoint = "GetDeviceCaps", SetLastError = true)]
+        public static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
+        enum DeviceCap
+        {
+            VERTRES = 10,
+            PHYSICALWIDTH = 110,
+            SCALINGFACTORX = 114,
+            DESKTOPVERTRES = 117,
+
+            // http://pinvoke.net/default.aspx/gdi32/GetDeviceCaps.html
+        }
         public static void AddOrUpdateAppSettings(string key, string value)
         {
             try
@@ -224,6 +236,16 @@ namespace LDBot
         {
             string[] filePathArr = filePath.Split('\\');
             return filePathArr[filePathArr.Length - 1];
+        }
+        public static double GetScreenScalingFactor()
+        {
+            var g = Graphics.FromHwnd(IntPtr.Zero);
+            IntPtr desktop = g.GetHdc();
+            var physicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.DESKTOPVERTRES);
+
+            var screenScalingFactor = (double)physicalScreenHeight / Screen.PrimaryScreen.Bounds.Height;//SystemParameters.PrimaryScreenHeight;
+
+            return screenScalingFactor;
         }
     }
 

@@ -34,8 +34,8 @@ namespace LDBot
         {
             lbl_BrowseLDFolder.Text = ConfigurationManager.AppSettings["LDPath"];
             ADBHelper.SetADBFolderPath(ConfigurationManager.AppSettings["LDPath"]);
-            txt_DefaultLDWidth.Value = ConfigurationManager.AppSettings["DefaultWidth"] != null ? Decimal.Parse(ConfigurationManager.AppSettings["DefaultWidth"]) : 240;
-            txt_DefaultLDHeight.Value = ConfigurationManager.AppSettings["DefaultHeight"] != null ? Decimal.Parse(ConfigurationManager.AppSettings["DefaultHeight"]) : 360;
+            txt_DefaultLDWidth.Value = ConfigurationManager.AppSettings["DefaultWidth"] != null ? Decimal.Parse(ConfigurationManager.AppSettings["DefaultWidth"]) : 320;
+            txt_DefaultLDHeight.Value = ConfigurationManager.AppSettings["DefaultHeight"] != null ? Decimal.Parse(ConfigurationManager.AppSettings["DefaultHeight"]) : 480;
         }
 
         private void updateStatus(string stt)
@@ -617,7 +617,7 @@ namespace LDBot
 
         private void changeLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string changeLog = string.Format("1.1.2:\n- (New) Copy/Paste script from LD to other LD.\n\n1.1.1:\n- (Fixed) List view bug when create/clone/delete LD.\n- (Fixed) Delete script directory when LD deleted.\n\n1.1:\n- (New) Capture guide.");
+            string changeLog = string.Format("1.1.3:\n- (New) Schedule a timer to run the script.\n- (Fixed) Remove sort emulator when start/reboot LD.\n- (Fixed) \"Stop script\" works more stable.\n\n1.1.2:\n- (New) Copy/Paste script from LD to other LD.\n\n1.1.1:\n- (Fixed) List view bug when create/clone/delete LD.\n- (Fixed) Delete script directory when LD deleted.\n\n1.1:\n- (New) Capture guide.");
             MessageBox.Show(changeLog,"Change Log", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -665,6 +665,47 @@ namespace LDBot
                         pasteScript(ld);
                     }
                     Clipboard.Clear();
+                }
+            }
+        }
+
+        private void scheduleScriptToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (Prompt prompt = new Prompt("Enter the time to run the script", "Schedule Script", DateTime.Now.ToString()))
+            {
+                if (prompt.Result != "")
+                {
+                    if ((DateTime.Now - DateTime.Parse(prompt.Result)).TotalSeconds >= 0)
+                    {
+                        MessageBox.Show("Schedule time must be greater than current time!","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else if (list_Emulator.SelectedItems.Count > 0)
+                    {
+                        LDEmulator ld = list_Emulator.SelectedItems[0].Tag as LDEmulator;
+                        LDManager.scheduleScript(ld, DateTime.Parse(prompt.Result));
+                    }
+                }
+            }
+        }
+
+        private void scheduleScriptToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (Prompt prompt = new Prompt("Enter the time to run the script", "Schedule Script", DateTime.Now.ToString()))
+            {
+                if (prompt.Result != "")
+                {
+                    if ((DateTime.Now - DateTime.Parse(prompt.Result)).TotalSeconds >= 0)
+                    {
+                        MessageBox.Show("Schedule time must be greater than current time!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else if (list_Emulator.SelectedItems.Count > 0)
+                    {
+                        foreach (object selectedLD in list_Emulator.SelectedItems)
+                        {
+                            LDEmulator ld = ((ListViewItem)selectedLD).Tag as LDEmulator;
+                            LDManager.scheduleScript(ld, DateTime.Parse(prompt.Result));
+                        }
+                    }
                 }
             }
         }

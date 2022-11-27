@@ -28,7 +28,7 @@ namespace LDBot
         {
         }
 
-        protected virtual void Start() { }
+        public virtual void Start() { }
 
         public virtual void CaptureGuide(string fileName) { }
 
@@ -84,7 +84,7 @@ namespace LDBot
                 }
                     
                 result = true;
-            }
+            }  
             else
             {
                 setStatus(string.Format("{0} not found", Helper.getFileNameByPath(imgPath)));
@@ -297,6 +297,11 @@ namespace LDBot
         {
             if(_ld.isRunning)
                 LDManager.restartLD(_ld);
+        }
+
+        protected double getScreenScaling()
+        {
+            return Helper.GetScreenScalingFactor();
         }
         #endregion
     }

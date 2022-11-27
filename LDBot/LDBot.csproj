@@ -191,6 +191,8 @@
   <ItemGroup>
     <Content Include="LDBot_Icon.ico" />
     <Content Include="ldplayer220-220.ico" />
+    <None Include="Resources\icons8-clock-64 %281%29.png" />
+    <None Include="Resources\icons8-clock-64.png" />
     <None Include="Resources\icons8-paste-30.png" />
     <None Include="Resources\icons8-copy-64.png" />
     <None Include="Resources\icons8-capture-32.png" />

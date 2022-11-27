@@ -17,6 +17,8 @@ namespace LDBot
 
 		public static List<LDEmulator> listEmulator = new List<LDEmulator>();
 
+		private static List<Thread> ldScriptThreads = new List<Thread>();
+
 		private static void getLDInfo(LDEmulator ld)
 		{
 			bool isStarted = false;
@@ -221,6 +223,7 @@ namespace LDBot
 				thread.IsBackground = true;
 				thread.Name = "LD" + ld.Index.ToString();
 				thread.Start();
+				
 			}
 			catch (Exception e)
 			{
@@ -240,7 +243,7 @@ namespace LDBot
 						LDManager.executeLdConsole("reboot --index " + ld.Index);
 						Thread.Sleep(3000);
 						getLDInfo(ld);
-						LDManager.executeLdConsole("sortWnd");
+						//LDManager.executeLdConsole("sortWnd");
 					}
 					else
 						Helper.raiseOnUpdateLDStatus(ld.Index, "LD has not started");
@@ -290,7 +293,16 @@ namespace LDBot
 			{
 				if (ld != null)
 				{
-					ld.botAction.PreStart();
+					Thread thread = new Thread((ThreadStart)delegate
+					{
+						ld.botAction.Start();
+					});
+					thread.IsBackground = true;
+					thread.Name = "Script" + ld.Index.ToString();
+					thread.Start();
+					var checkThread = ldScriptThreads.FirstOrDefault(x => x.Name == "Script" + ld.Index.ToString());
+					if (checkThread == null)
+						ldScriptThreads.Add(thread);
 				}
 			}
 			catch (Exception e)
@@ -306,12 +318,18 @@ namespace LDBot
 			{
 				if (ld != null)
 				{
-					ld.botAction.Stop();
+					var checkThread = ldScriptThreads.FirstOrDefault(x => x.Name == "Script" + ld.Index.ToString());
+					if (checkThread != null)
+                    {
+						//ld.botAction.Stop();
+						checkThread.Abort();
+						ldScriptThreads.Remove(checkThread);
+						Helper.raiseOnUpdateLDStatus(ld.Index, "Script aborted");
+					}						
 				}
 			}
 			catch (Exception e)
 			{
-
 				Helper.raiseOnUpdateLDStatus(ld.Index, "Err: " + e.Message);
 			}
 		}
@@ -371,5 +389,32 @@ namespace LDBot
 			}			
 		}
 		
-	}
+		public static void scheduleScript(LDEmulator ld, DateTime runTime)
+        {
+			try
+			{
+				System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+				timer.Interval = 1000;
+				timer.Tick += (object sender, EventArgs e) => Timer_Tick(sender, e, runTime, ld);
+				timer.Enabled = true;
+				timer.Start();
+			}
+			catch (Exception e)
+            {
+				Helper.raiseOnErrorMessage(e);
+            }			
+		}
+
+        private static void Timer_Tick(object sender, EventArgs e, DateTime runTime, LDEmulator ld)
+        {
+			Helper.raiseOnUpdateLDStatus(ld.Index, string.Format("Wait {0} seconds to run script", (int)(runTime - DateTime.Now).TotalSeconds));
+			if((int)(runTime - DateTime.Now).TotalSeconds == 0)
+            {
+				System.Windows.Forms.Timer t = sender as System.Windows.Forms.Timer;
+				t.Stop();
+				t.Enabled = false;
+				startScript(ld);
+            }			
+        }
+    }
 }

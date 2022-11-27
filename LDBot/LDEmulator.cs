@@ -168,6 +168,7 @@ namespace LDBot
             options.ReferencedAssemblies.Add("KAutoHelper.dll");
             options.ReferencedAssemblies.Add("xNet.dll");
             options.ReferencedAssemblies.Add("Newtonsoft.Json.dll");
+            options.ReferencedAssemblies.Add("MailKit.dll");
             options.ReferencedAssemblies.Add("MimeKit.dll");
             options.ReferencedAssemblies.Add("LDBot.exe");
             StringBuilder stringBuilder = new StringBuilder();
@@ -182,9 +183,11 @@ namespace LDBot
             stringBuilder.AppendLine("using System.Threading;");
             stringBuilder.AppendLine("using System.Threading.Tasks;");
             stringBuilder.AppendLine("using System.IO;");
+            stringBuilder.AppendLine("using System.Runtime.InteropServices;");
             stringBuilder.AppendLine("using Newtonsoft.Json;");
             stringBuilder.AppendLine("using KAutoHelper;");
             stringBuilder.AppendLine("using xNet;");
+            stringBuilder.AppendLine("using MailKit;");
             stringBuilder.AppendLine("using MimeKit;");
             stringBuilder.AppendLine("namespace LDBot {");
             stringBuilder.AppendLine("class AutoScriptExternalClass:BotAction {");
